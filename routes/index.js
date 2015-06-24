@@ -3,6 +3,11 @@ var express = require('express');
 var router = express.Router();
 var domiciliarios = require('../controllers/emp-domiciliarios');
 
+router.get('/', function(req, res){
+	res.send('hola');
+});
+
+
 // R - llamoo una empresa domiciliario por id
 router.get('/api/emp-domiciliarios/:id', domiciliarios.findOneEmpDomiciliarios)
 

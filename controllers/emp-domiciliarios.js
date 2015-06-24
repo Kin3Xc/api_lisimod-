@@ -1,6 +1,6 @@
 // aqui van todas las funciones relacionadas con routes/index
 var mongoose = require('mongoose');
-// var Emp-domiciliario = mongoose.model('Emp-domiciliario');
+var EmpDomiciliario = mongoose.model('EmpDomiciliarioModel');
 
 // Busca una empresa de domiciliarios por su id
 exports.findOneEmpDomiciliarios = function(req, res){
@@ -9,12 +9,11 @@ exports.findOneEmpDomiciliarios = function(req, res){
 
 // Busca todas las empresas domiciliarios en db
 exports.findAllEmpDomiciliarios = function(req, res){
-	var obj = {"nombre": "Daniel",
-		"Domiciliarios" : {
-			"name": "Pedro"
-		}
-	};
-	res.json(obj);
+EmpDomiciliario.find(function(err, empDomiciliarios){
+	res.json(empDomiciliarios);
+});
+	
+
 }
 
 // Agrega una empresa Domiciliarios
