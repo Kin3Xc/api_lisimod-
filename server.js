@@ -8,23 +8,34 @@ var favicon = require('favicon');
 var fs = require('fs');
 
 
-
-fs.readdirSync(__dirname+ '/models').forEach(function(filename){
-  if (~filename.indexOf('.js')) require(__dirname+'/models/'+filename);
-});
- 
-
 // require mongo
 var db = require('./db/db.js');
 db.conectar();
 var app = express();
+
+// require todos los modelos
+fs.readdirSync(__dirname+ '/models').forEach(function(filename){
+  if (~filename.indexOf('.js')) require(__dirname+'/models/'+filename);
+});
+
+
+// // view engine setup
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade'); 
 
 
 
 // middlewares
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
-app.use(methodOverride());
+app.use(methodOverride(function(req, res){
+      if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        // look in urlencoded POST bodies and delete it
+        var method = req.body._method
+        delete req.body._method
+        return method
+      }
+}));
 
 // routes API
 app.use('/', require('./routes'));
@@ -32,12 +43,12 @@ app.use('/', require('./routes'));
 
 // ERROR HANDLERS
 
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
+//catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
 // error handlers
 
@@ -46,7 +57,7 @@ app.use('/', require('./routes'));
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+      send('error', {
       message: err.message,
       error: err
     });
@@ -57,7 +68,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
+    send('error', {
     message: err.message,
     error: {}
   });
