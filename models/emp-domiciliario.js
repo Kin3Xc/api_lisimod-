@@ -7,7 +7,7 @@ var empDomiciliarioSchema = new Schema({
 	tarifaKm: Number,
 	email: String,
 	telefono: Number,
-	nitEmpresa: Number, 
+	nitEmpresa: String, 
 	logoEmpresa: String
 	
 });

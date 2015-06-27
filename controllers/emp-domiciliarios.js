@@ -26,6 +26,16 @@ exports.findAllEmpDomiciliarios = function(req, res){
 
 // Agrega una empresa Domiciliarios
 exports.addEmpDomiciliario = function(req, res){
+	
+	// EN PRUEBA - upload img
+	if(req.files.logoEmpresa){
+		console.log('Cargando el archivo de la Imagen ...');
+		var logoEmpresa = req.files.logoEmpresa.name;
+	} else {
+		// si no da foto poner foto default
+		var logoEmpresa = "noimage.png";
+	}
+
 	var emp =  new EmpDomiciliario({
 		// coger datos enviados por el formulario del cliente
 		nombreEmpresa: req.body.nombreEmpresa,
@@ -33,7 +43,8 @@ exports.addEmpDomiciliario = function(req, res){
 		email: req.body.email,
 		telefono: req.body.telefono,
 		nitEmpresa: req.body.nitEmpresa,
-		logoEmpresa: req.body.logoEmpresa
+		logoEmpresa: logoEmpresa
+
 	});	
 	// guardar datos en la db
 	emp.save(function(err, data){
@@ -103,13 +114,21 @@ exports.findByTarif = function(req, res){
 
 // agrega domiciliario
 exports.addDomiciliario = function(req, res){
+	if(req.files.foto){
+		console.log('Cargando el archivo de la Imagen ...');
+		var foto = req.files.foto.name;
+	} else {
+		// si no da foto poner foto default
+		var foto = "noimage.png";
+	}
+
 	var domi = new Domiciliario({
 		nombre: req.body.nombre,
 		email: req.body.email,
 		telefono: req.body.telefono,
-		foto: req.body.foto,
 		numCedula: req.body.numCedula,
-		idEmpresa: req.body.idEmpresa
+		idEmpresa: req.body.idEmpresa,
+		foto: foto
 	});
 
 	domi.save(function(err, data){

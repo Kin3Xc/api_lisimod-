@@ -7,7 +7,7 @@ var domiciliarios = require('../controllers/emp-domiciliarios');
 
 // ruta home
 router.get('/', function(req, res){
-	res.send('hola');
+	res.send('hola bienvenido a la api de DOMISIL');
 });
 
 // EMP DOMICILIARIOS
@@ -37,4 +37,7 @@ router.post('/api/domiciliarios', domiciliarios.addDomiciliario);
 router.get('/api/domiciliarios/:id', domiciliarios.findOneDomiciliario);
 router.delete('/api/domiciliarios/:id', domiciliarios.deleteDomiciliario);
 router.put('/api/domiciliarios/:id', domiciliarios.updateDomiciliario);
+
+
+
 module.exports = router;
