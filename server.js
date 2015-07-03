@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 var path = require('path');
+var cors = require('cors');
 var favicon = require('favicon');
 var fs = require('fs');
 var multer = require('multer');
@@ -27,8 +28,10 @@ fs.readdirSync(__dirname+ '/models').forEach(function(filename){
 app.use(multer({ dest: './uploads/'}));
 
 // middlewares
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
+//habilita cors en toda la api
+app.use(cors()); 
 app.use(methodOverride(function(req, res){
       if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
@@ -77,7 +80,7 @@ app.use(function(err, req, res, next) {
 
 
 // Start the server
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 5000);
 
 var server = app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);
