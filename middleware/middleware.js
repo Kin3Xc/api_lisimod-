@@ -9,7 +9,7 @@ exports.ensureAuthenticated = function(req, res, next){
 	if(!req.headers.authorization){
 		return res
 			.status(403)
-			.send({ message: 'No tienes permiso: Tu petinición no me envío header con token (cabecera de autorización'});
+			.send({ message: 'No tienes permiso: Tu petinición no me envío header con token (cabecera de autorización)'});
 	}
 
 	var token = req.headers.authorization.split(" ")[1];

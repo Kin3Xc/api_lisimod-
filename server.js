@@ -10,6 +10,7 @@ var fs = require('fs');
 var multer = require('multer');
 
 
+
 // require mongo
 var db = require('./db/db.js');
 db.conectar();
@@ -40,6 +41,16 @@ app.use(methodOverride(function(req, res){
         return method
       }
 }));
+
+// Force HTTPS on Heroku
+if (app.get('env') === 'production') {
+  app.use(function(req, res, next) {
+    var protocol = req.get('x-forwarded-proto');
+    protocol == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
+  });
+}
+app.use(express.static(path.join(__dirname, '../../client')));
+
 
 // routes API
 app.use('/', require('./routes'));
