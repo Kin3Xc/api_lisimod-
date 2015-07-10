@@ -1,10 +1,11 @@
 // mongoose
 var mongoose = require('mongoose');
+var path = require('path');
 
 // modelos Service, User y EmpDomicilarioModel
 var Service = require('../models/service');
-var User = require('../models/user');
-var EmpDomiciliario = require('../models/emp-domiciliario')
+var User = mongoose.model('User');
+var EmpDomiciliario = mongoose.model('EmpDomiciliarioModel');
 
 
 //R*
@@ -19,8 +20,14 @@ exports.findAllServices = function(req, res){
 //R1
 exports.findOneService = function(req, res){
  Service.findOne({ _id: req.params.id}, function(err, data){
- 	if (err) next(err);
- 	res.json(data);
+ 	User.populate(data, { path: 'userId'}, function(err, data){
+ 		if(err) next(err);
+	 	EmpDomiciliario.populate(data, { path: 'idEmpresa'}, function(err, data){
+	 		if (err) next(err);
+		 	res.json(data);
+	 	});
+ 	});
+	 	
  });
 }
 

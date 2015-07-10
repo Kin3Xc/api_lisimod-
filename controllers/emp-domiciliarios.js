@@ -1,6 +1,7 @@
 // ****** funciones que controllan rutas en routes/index.js
 
 var mongoose = require('mongoose');
+// para populate
 var path = require('path');
 
 
