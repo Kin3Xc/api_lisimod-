@@ -3,9 +3,6 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var config = require('../config');
 
-
-
-
 // recibe user y genera un token con su id, y momento de creacion y expiracion
 exports.createToken = function(user){
 	var payload = {

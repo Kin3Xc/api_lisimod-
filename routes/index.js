@@ -3,16 +3,14 @@
 var express = require('express');
 var router = express.Router();
 
-
-
 var auth = require('../auth/auth');  
 var middleware = require('../middleware/middleware');
 var User = require('../models/user');
 
-
 // requiere funciones de controladores
 var domiciliarios = require('../controllers/emp-domiciliarios');
 var users = require('../controllers/users');
+var services = require('../controllers/services');
 
 // ruta home
 router.get('/', function(req, res){
@@ -47,13 +45,14 @@ router.put('/api/domiciliarios/:id', domiciliarios.updateDomiciliario);
 // Rutas de autenticación y login
 router.post('/auth/signup', auth.emailSignup);  
 router.post('/auth/login', auth.emailLogin);
-// router.post('/auth/facebook', auth.faceLogin);
+router.post('/auth/facebook', auth.faceLogin);
+router.post('/api/auth/twitter', auth.twitterLogin);
 
 // router.get('auth/unlink/:provider', middleware.ensureAuthenticated, auth.unlinkProvider);
 
+	
 
-
-// EN DESARROLLO
+// EN DESARROLLO	
 // Ruta solo accesible si estás autenticado
 router.get('/api/users', users.findAllUsers);
 router.get('/api/users/:id', users.findOneUser);
@@ -67,6 +66,12 @@ router.get('/private', middleware.ensureAuthenticated, function(req, res) {
 });
 
 
+// rutas  /api/service   service es el controller
+router.get('/api/services', services.findAllServices);
+router.get('/api/service/:id', services.findOneService)
+router.post('/api/service', services.addOneService);
+router.put('/api/service/:id', services.updateService);
+router.delete('/api/service/:id', services.deleteService);
 
 
 module.exports = router;
