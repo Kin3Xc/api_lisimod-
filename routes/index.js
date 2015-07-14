@@ -29,6 +29,8 @@ router.post('/api/emp-domiciliarios', domiciliarios.addEmpDomiciliario);
 router.put('/api/emp-domiciliarios/:id', domiciliarios.updateEmpDomiciliario);
 // D - borrar una empresa de domiciliarios
 router.delete('/api/emp-domiciliarios/:id', domiciliarios.deleteEmpDomiciliario);
+
+// POR REVISAR
 // lógica de negocio
 router.get('/api/tarifas', domiciliarios.findByTarif);
 
@@ -46,9 +48,10 @@ router.put('/api/domiciliarios/:id', domiciliarios.updateDomiciliario);
 router.post('/auth/signup', auth.emailSignup);  
 router.post('/auth/login', auth.emailLogin);
 router.post('/auth/facebook', auth.faceLogin);
+router.get('/auth/facebook', auth.faceAdentro);
 router.post('/api/auth/twitter', auth.twitterLogin);
 
-// router.get('auth/unlink/:provider', middleware.ensureAuthenticated, auth.unlinkProvider);
+router.get('/auth/unlink/:provider', middleware.ensureAuthenticated, auth.unlinkProvider);
 
 	
 
@@ -58,7 +61,7 @@ router.get('/api/users', users.findAllUsers);
 router.get('/api/users/:id', users.findOneUser);
 router.put('/api/users/:id', users.updateUser);
 router.delete('/api/users/:id', users.deleteUser);
-router.post('/api/users', users.AddUser);
+router.post('/api/users',users.AddUser);
 
 // middleware.ensureAuthenticated
 router.get('/private', middleware.ensureAuthenticated, function(req, res) {

@@ -2,6 +2,6 @@
 
 module.exports = {
 	TOKEN_SECRET: process.env.TOKEN_SECRET || "tokenultrasecreto",
-	FACEBOOK_SECRET: process.env.FACEBOOK_SECRET || '398b57d38c28e13eff5c5c62febe614c'
+	FACEBOOK_SECRET: process.env.FACEBOOK_SECRET || '156acb81157a55ca4ee93989db11b140' // test face
 };
 
