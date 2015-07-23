@@ -48,8 +48,8 @@ router.put('/api/domiciliarios/:id', domiciliarios.updateDomiciliario);
 router.post('/auth/signup', auth.emailSignup);  
 router.post('/auth/login', auth.emailLogin);
 router.post('/auth/facebook', auth.faceLogin);
-router.get('/auth/facebook', auth.faceAdentro);
-router.post('/api/auth/twitter', auth.twitterLogin);
+// router.get('/auth/facebook', auth.faceAdentro);
+// router.post('/api/auth/twitter', auth.twitterLogin);
 
 router.get('/auth/unlink/:provider', middleware.ensureAuthenticated, auth.unlinkProvider);
 

@@ -5,6 +5,9 @@ var User = require('../models/user');
 //para crear el token uso este service
 var service = require('../service/token');
 var bcrypt = require('bcrypt');
+var async = require('async');
+
+var request = require('request');
 
 var request = require('request');
 var qs = require('querystring');
@@ -17,7 +20,6 @@ exports.twitterLogin = function(req,res){
 	res.send('hello');	
 }
 
-
 exports.faceAdentro = function(req, res){
 	res.json('hola');
 }
@@ -25,6 +27,9 @@ exports.faceAdentro = function(req, res){
 
 //function para registro con facebook
 exports.faceLogin = function(req, res){
+	// ESTA FUNCION NO SE ESTABA EJECUTANDO, LA PETICION NO LLEGA HASTA ACA
+	// SE PROBO CON POSTMAN Y ESTA FUNCION RETORNA UN TOKEN ES DECIR FUNCIONA
+
 	var accessTokenUrl = 'https://graph.facebook.com/v2.3/oauth/access_token';
 	var graphApiUrl = 'https://graph.facebook.com/v2.3/me';
 
@@ -36,13 +41,11 @@ exports.faceLogin = function(req, res){
 	};
 
 	//Step 1 Exchange authorization code for access token
-	// PROBAR SI CAMBIANDO accessToken por token CASA ADOLFO
 	request.get({ url: accessTokenUrl, qs: params, json: true}, function(err, response, accessToken){
 		if(response.statusCode !== 200){
-			console.log('si es aca el problema');
 			return res.status(500).send({ message: accessToken.error.message });
 		}
-	});
+	
 
 	//Step 2 Retrieve profile info about current user
 	request.get({ url: graphApiUrl, qs: accessToken, json: true}, function(err, response, profile){
@@ -62,13 +65,15 @@ exports.faceLogin = function(req, res){
 					if(!user){
 						return res.status(400).send({ message: 'User not found'});
 					}
+					// Retorno usuario
 
 					// si el user si es encontrado
 					user.facebook = profile.id;
 					user.picture = user.picture || 'http://graph.facebook.com/v2.3/'+profile.id+'/picture?type=large';
 					user.displayName = user.displayName || profile.name;
+					
 					user.save(function(){
-						var token = createJWT(user);
+						var token = service.createToken(user);
 						// devuelvo el token
 						res.send({ token: token});
 					});
@@ -78,7 +83,7 @@ exports.faceLogin = function(req, res){
 			// Step 3b. Create new user account or return an existing one
 			User.findOne({ facebook: profile.id}, function(err, existingUser){
 				if(existingUser){
-					var token = createJWT(existingUser);
+					var token = service.createToken(existingUser);
 					return res.send({ token: token });
 				}
 				var user = new User();
@@ -86,12 +91,13 @@ exports.faceLogin = function(req, res){
 				user.picture = 'https://graph.facebook.com/'+ profile.id + '/picture?type=large';
 				user.displayName = profile.name;
 				user.save(function(){
-					var token = createJWT(user);
+					var token = service.createToken(user);
 					res.send({ token: token});
 				});
 			});
 		}
 	});
+});
 } // fin faceLogin function
 
 
@@ -148,6 +154,7 @@ function validateUser(user, password, cb){
 
 // function para ingresar usuario al sistema
 exports.emailLogin = function(req, res){
+	console.log('ahora aqui');
 	User.findOne({ usuario: req.body.usuario }, function(err, user){
 		if (err) next(err);
 		if(!user) res.json({success: false, message: 'No existe ese usuario'});

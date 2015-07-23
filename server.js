@@ -9,7 +9,7 @@ var favicon = require('favicon');
 var fs = require('fs');
 var multer = require('multer');
 
-
+var logger = require('morgan');
 
 // require mongo
 var db = require('./db/db.js');
@@ -20,11 +20,10 @@ var app = express();
 fs.readdirSync(__dirname+ '/models').forEach(function(filename){
   if (~filename.indexOf('.js')) require(__dirname+'/models/'+filename);
 });
-
-
+  
 // // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade'); 
+// app.set('view engine', 'jade');
 
 app.use(multer({ dest: './uploads/'}));
 
@@ -32,7 +31,18 @@ app.use(multer({ dest: './uploads/'}));
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 //habilita cors en toda la api
-app.use(cors()); 
+// app.use(cors());
+
+ app.use(function (req, res, next){
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
+
+app.use(logger('dev'));
 app.use(methodOverride(function(req, res){
       if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
@@ -91,7 +101,7 @@ app.use(function(err, req, res, next) {
 
 
 // Start the server
-app.set('port', process.env.PORT || 5000);
+app.set('port', process.env.PORT || 8000);
 
 var server = app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);
