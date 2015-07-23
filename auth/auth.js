@@ -5,7 +5,6 @@ var User = require('../models/user');
 //para crear el token uso este service
 var service = require('../service/token');
 var bcrypt = require('bcrypt');
-var async = require('async');
 
 var request = require('request');
 
@@ -24,11 +23,13 @@ exports.faceAdentro = function(req, res){
 	res.json('hola');
 }
 
+exports.hola = function(req, res){
+	res.json('hola mundo');
+}
+
 
 //function para registro con facebook
 exports.faceLogin = function(req, res){
-	// ESTA FUNCION NO SE ESTABA EJECUTANDO, LA PETICION NO LLEGA HASTA ACA
-	// SE PROBO CON POSTMAN Y ESTA FUNCION RETORNA UN TOKEN ES DECIR FUNCIONA
 
 	var accessTokenUrl = 'https://graph.facebook.com/v2.3/oauth/access_token';
 	var graphApiUrl = 'https://graph.facebook.com/v2.3/me';
@@ -70,12 +71,13 @@ exports.faceLogin = function(req, res){
 					// si el user si es encontrado
 					user.facebook = profile.id;
 					user.picture = user.picture || 'http://graph.facebook.com/v2.3/'+profile.id+'/picture?type=large';
-					user.displayName = user.displayName || profile.name;
-					
+					user.usuario = user.usuario || profile.name;
+					console.log('USUARIO: '+profile.name);
+
 					user.save(function(){
 						var token = service.createToken(user);
 						// devuelvo el token
-						res.send({ token: token});
+						res.send({userId: user._id, token: token});
 					});
 				});
 			});
@@ -84,15 +86,17 @@ exports.faceLogin = function(req, res){
 			User.findOne({ facebook: profile.id}, function(err, existingUser){
 				if(existingUser){
 					var token = service.createToken(existingUser);
-					return res.send({ token: token });
+					return res.send({userId: existingUser._id, token: token });
 				}
 				var user = new User();
 				user.facebook = profile.id;
 				user.picture = 'https://graph.facebook.com/'+ profile.id + '/picture?type=large';
-				user.displayName = profile.name;
+				user.usuario = profile.name;
+				console.log('USUARIO: '+profile.name);
+
 				user.save(function(){
 					var token = service.createToken(user);
-					res.send({ token: token});
+					res.send({userId: user._id, token: token});
 				});
 			});
 		}
@@ -139,7 +143,7 @@ exports.emailSignup = function(req, res){
 			if (err) { throw next(err) }
 			return res
 				.status(200)
-				.send({ token: service.createToken(user)});
+				.send({userId: user._id, token: service.createToken(user)});
 		});
 	});
 };
@@ -154,7 +158,7 @@ function validateUser(user, password, cb){
 
 // function para ingresar usuario al sistema
 exports.emailLogin = function(req, res){
-	console.log('ahora aqui');
+	// console.log('ahora aqui email Login');
 	User.findOne({ usuario: req.body.usuario }, function(err, user){
 		if (err) next(err);
 		if(!user) res.json({success: false, message: 'No existe ese usuario'});
@@ -162,7 +166,8 @@ exports.emailLogin = function(req, res){
 		if (req.body.password === null) { return res.send(401)}
 		if(req.body.password !== null){
 			validateUser(user, req.body.password, function(err, valid){
-				if(err || !valid){ return res.send(401)}
+				// if(err || !valid){ return res.send(401)} // PREGUNTAR A DANIEL
+				if(err || valid){ return res.send(401)}
 				// si no hay error y contraseña es igual devuelvo el token con payload
 				console.log(user._id);
 				return res

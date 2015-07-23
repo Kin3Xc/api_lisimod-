@@ -9,7 +9,7 @@ var favicon = require('favicon');
 var fs = require('fs');
 var multer = require('multer');
 
-var logger = require('morgan');
+// var logger = require('morgan');
 
 // require mongo
 var db = require('./db/db.js');
@@ -31,18 +31,19 @@ app.use(multer({ dest: './uploads/'}));
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 //habilita cors en toda la api
-// app.use(cors());
 
- app.use(function (req, res, next){
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
+app.use(cors());
+
+//  app.use(function (req, res, next){
+//   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   res.header('Access-Control-Allow-Credentials', 'true');
+//   next();
+// });
 
 
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(methodOverride(function(req, res){
       if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
