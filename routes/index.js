@@ -71,7 +71,8 @@ router.get('/private', middleware.ensureAuthenticated, function(req, res) {
 
 // rutas  /api/service   service es el controller
 router.get('/api/services', services.findAllServices);
-router.get('/api/service/:id', services.findOneService)
+router.get('/api/service/:id', services.findOneService);
+router.get('/api/user_service/:id', services.findUserService); //para retornar los servicios de un usuario
 router.post('/api/service', services.addOneService);
 router.put('/api/service/:id', services.updateService);
 router.delete('/api/service/:id', services.deleteService);

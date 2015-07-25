@@ -12,6 +12,18 @@ var request = require('request');
 var qs = require('querystring');
 var config = require('../config');
 
+var nodemailer = require('nodemailer');
+
+// creo un objeto encargado de transportar el mensaje por medio del protocolo SMTP
+// este objeto se crea una sol vez y se puede utulizar por los diferentes metodos de la app
+var transporter = nodemailer.createTransport({
+	service: 'Gmail',
+	auth:{
+		user: 'elkinjuc@gmail.com',
+		pass: 'rootshell'
+	}
+});
+
 //POR VER PUESTO DONDE ADOLFO
 var jwt = require('jwt-simple');
 
@@ -134,6 +146,24 @@ exports.emailSignup = function(req, res){
 	var user = new User({
 		usuario: req.body.usuario
 		// acá pongo el resto de parametros del modelo
+	});
+
+	// envio mail al usuario registrado
+	// los datos de configuracion de correo con simbolo unicode
+	var mailOptions = {
+		from: 'Elkin Urango de Oglit <elkin@oglit.com>',
+		to: 'kin3xc@hotmail.com, danielr50@hotmail.com',
+		subject: 'Hola mundo desde Node.js',
+		text: 'Esta es una prueba de envio de correo, tulizando la libreria Nodemailer de JS',
+		html: '<h1>Hola desde una etiqueta h1 de HTML</h1>'
+	};
+
+	// Envio el mail con el transportador definido
+	transporter.sendMail(mailOptions, function(error, info){
+		if (error) {
+			return console.log(error);
+		}
+		console.log('Mensaje enviado: ' + info.response);
 	});
 
 	bcrypt.hash(req.body.password, 10, function(err, hash){

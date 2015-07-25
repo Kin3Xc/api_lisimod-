@@ -4,11 +4,21 @@ var mongoose = require('mongoose');
 // para populate
 var path = require('path');
 
+var nodemailer = require('nodemailer');
 
 // require los modelos de empresas y domiciliarios
 var EmpDomiciliario = mongoose.model('EmpDomiciliarioModel');
 var Domiciliario = mongoose.model('DomiciliarioModel');
 
+// creo un objeto encargado de transportar el mensaje por medio del protocolo SMTP
+// este objeto se crea una sol vez y se puede utulizar por los diferentes metodos de la app
+var transporter = nodemailer.createTransport({
+	service: 'Gmail',
+	auth:{
+		user: 'elkinjuc@gmail.com',
+		pass: 'rootshell'
+	}
+});
 
 // Busca una empresa de domiciliarios por su id
 exports.findOneEmpDomiciliarios = function(req, res){
@@ -31,7 +41,8 @@ exports.addEmpDomiciliario = function(req, res){
 	// EN PRUEBA - upload img
 	if(req.files.logoEmpresa){
 		console.log('Cargando el archivo de la Imagen ...');
-		var logoEmpresa = req.files.logoEmpresa.name;
+		var logoEmpresa = req.files.logoEmpresa.path;
+		console.log(logoEmpresa);
 	} else {
 		// si no da foto poner foto default
 		var logoEmpresa = "noimage.png";
@@ -51,8 +62,25 @@ exports.addEmpDomiciliario = function(req, res){
 	emp.save(function(err, data){
 		if (err) res.send(err);
 		res.json({message:"Se agrego correctamente", data: data});
-	});
+		// envio mail al usuario registrado
+		// los datos de configuracion de correo con simbolo unicode
+		var mailOptions = {
+			from: 'Confirmación de registro <elkin@oglit.com>',
+			to: req.body.email+', danielr50@hotmail.com',
+			subject: 'Registro en Domisil',
+			text: 'Confirmación de registro',
+			html: '<h1>Registro éxitoso</h1> <p>Usted se registro en <a href="http://www.domisil.co" />Domisil.co</p>'
+		};
 
+		// Envio el mail con el transportador definido
+		transporter.sendMail(mailOptions, function(error, info){
+			if (error) {
+				return console.log(error);
+			}
+			console.log('Mensaje enviado: ' + info.response);
+		});
+
+		});
 }
 
 // Actualiza empresa domiciliarios
@@ -74,8 +102,6 @@ exports.updateEmpDomiciliario = function(req, res){
 	}); 
 		
 }
-
-
 // 
 exports.updateDomiciliario = function(req, res){
 	Domiciliario.findOne({ _id: req.params.id}, function(err, data){
@@ -171,3 +197,10 @@ exports.deleteDomiciliario = function(req, res){
 	});
 }
 
+// funcion que retora la imagen de la emprsa
+exports.imgEmp = function(req, res){
+	Domiciliario.findOne({logoEmpresa: req.params.id}, function(err, empDomiciliario){
+		if (err) res.send(err);
+		res.json(empDomiciliario);
+	});
+}

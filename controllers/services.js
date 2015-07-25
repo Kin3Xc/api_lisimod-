@@ -31,6 +31,20 @@ exports.findOneService = function(req, res){
  });
 }
 
+// retorna todos los servicios asociados a un usuario especifico
+exports.findUserService = function(req, res){
+	Service.find({ userId: req.params.id}, function(err, data){
+ 	User.populate(data, { path: 'userId'}, function(err, data){
+ 		if(err) next(err);
+	 	EmpDomiciliario.populate(data, { path: 'idEmpresa'}, function(err, data){
+	 		if (err) next(err);
+		 	res.json(data);
+	 	});
+ 	});
+	 	
+ });
+}
+
 //C
 exports.addOneService = function(req, res){
 	var service = new Service({
