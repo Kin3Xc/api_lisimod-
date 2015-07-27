@@ -41,7 +41,7 @@ exports.addEmpDomiciliario = function(req, res){
 	// EN PRUEBA - upload img
 	if(req.files.logoEmpresa){
 		console.log('Cargando el archivo de la Imagen ...');
-		var logoEmpresa = req.files.logoEmpresa.path;
+		var logoEmpresa = req.files.logoEmpresa.name;
 		console.log(logoEmpresa);
 	} else {
 		// si no da foto poner foto default
@@ -197,10 +197,7 @@ exports.deleteDomiciliario = function(req, res){
 	});
 }
 
-// funcion que retora la imagen de la emprsa
+// funcion que retora la imagen de la empresa
 exports.imgEmp = function(req, res){
-	Domiciliario.findOne({logoEmpresa: req.params.id}, function(err, empDomiciliario){
-		if (err) res.send(err);
-		res.json(empDomiciliario);
-	});
+	res.send('/home/elkinurango/Desktop/oglit/api_lisimod-/uploads/'+req.params.id);
 }
