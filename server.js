@@ -25,7 +25,7 @@ fs.readdirSync(__dirname+ '/models').forEach(function(filename){
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
 
-// app.use(multer({ dest: './uploads/'}));
+app.use(multer({ dest: './uploads/'}));
 
 // middlewares
 app.use(bodyParser.urlencoded({ extended: true}));
