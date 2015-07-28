@@ -52,6 +52,9 @@ exports.deleteUser = function(req, res){
 //para nosotros agregar 
 exports.AddUser = function(req, res){
 	var user = new User({
+		nombre: req.body.nombre,
+		email:req.body.email,
+		telefono:req.body.telefono,
 		usuario: req.body.usuario,
 		password: req.body.password
 	});
