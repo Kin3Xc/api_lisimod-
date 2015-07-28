@@ -144,6 +144,9 @@ exports.unlinkProvider = function(req, res){
 // function para registro de usuario crea el token
 exports.emailSignup = function(req, res){
 	var user = new User({
+		nombre: req.body.nombre,
+		email:req.body.email,
+		telefono:req.body.telefono,
 		usuario: req.body.usuario
 		// acá pongo el resto de parametros del modelo
 	});
@@ -151,11 +154,11 @@ exports.emailSignup = function(req, res){
 	// envio mail al usuario registrado
 	// los datos de configuracion de correo con simbolo unicode
 	var mailOptions = {
-		from: 'Elkin Urango de Oglit <elkin@oglit.com>',
-		to: 'kin3xc@hotmail.com, danielr50@hotmail.com',
-		subject: 'Hola mundo desde Node.js',
+		from: 'Domisil Team <elkin@oglit.com>',
+		to: req.body.email,
+		subject: 'Confirmación de registro',
 		text: 'Esta es una prueba de envio de correo, tulizando la libreria Nodemailer de JS',
-		html: '<h1>Hola desde una etiqueta h1 de HTML</h1>'
+		html: '<h1>Registro éxitoso!</h1> <p>El registro se realizo exitosamente, sus datos fueron almacenados</>'
 	};
 
 	// Envio el mail con el transportador definido

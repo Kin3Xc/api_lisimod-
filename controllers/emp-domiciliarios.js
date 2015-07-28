@@ -65,9 +65,9 @@ exports.addEmpDomiciliario = function(req, res){
 		// envio mail al usuario registrado
 		// los datos de configuracion de correo con simbolo unicode
 		var mailOptions = {
-			from: 'Confirmación de registro <elkin@oglit.com>',
-			to: req.body.email+', danielr50@hotmail.com',
-			subject: 'Registro en Domisil',
+			from: 'Domisil Team <elkin@oglit.com>',
+			to: req.body.email,
+			subject: 'Confirmación de registro',
 			text: 'Confirmación de registro',
 			html: '<h1>Registro éxitoso</h1> <p>Usted se registro en <a href="http://www.domisil.co" />Domisil.co</p>'
 		};
