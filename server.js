@@ -20,13 +20,12 @@ var app = express();
 fs.readdirSync(__dirname+ '/models').forEach(function(filename){
   if (~filename.indexOf('.js')) require(__dirname+'/models/'+filename);
 });
-
   
 // // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
 
-app.use(multer({ dest: 'http://domisil.co/uploads/'}));
+// app.use(multer({ dest: './uploads/'}));
 
 // middlewares
 app.use(bodyParser.urlencoded({ extended: true}));
