@@ -42,7 +42,7 @@ exports.updateUser = function(req, res){
 		bcrypt.hash(req.body.password, 10, function(err, hash){
 			user.password = hash;
 
-			user.update(function(err, data){
+			user.save(function(err, data){
 				if (err) throw err;
 				res.json({message:"se Actualizo el usuario", data: data});
 			});
