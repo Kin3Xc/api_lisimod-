@@ -42,7 +42,6 @@ router.get('/api/domiciliarios/:id', domiciliarios.findOneDomiciliario);
 router.delete('/api/domiciliarios/:id', domiciliarios.deleteDomiciliario);
 router.put('/api/domiciliarios/:id', domiciliarios.updateDomiciliario);
 
-router.get('/api/domiciliarios_img/:id', domiciliarios.imgEmp);
 
 
 // Rutas auth y login

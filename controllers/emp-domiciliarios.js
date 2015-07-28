@@ -197,7 +197,7 @@ exports.deleteDomiciliario = function(req, res){
 	});
 }
 
-// funcion que retora la imagen de la empresa
-exports.imgEmp = function(req, res){
-	res.send('/home/elkinurango/Desktop/oglit/api_lisimod-/uploads/'+req.params.id);
-}
+// // funcion que retora la imagen de la empresa
+// exports.imgEmp = function(req, res){
+// 	res.send('path:'+__dirname+'/uploads'+req.params.id);
+// }
