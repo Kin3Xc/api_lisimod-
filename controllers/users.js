@@ -42,7 +42,7 @@ exports.updateUser = function(req, res){
 		bcrypt.hash(req.body.password, 10, function(err, hash){
 			user.password = hash;
 
-			user.save(function(err, data){
+			user.update(function(err, data){
 				if (err) throw err;
 				res.json({message:"se Actualizo el usuario", data: data});
 			});
@@ -56,7 +56,6 @@ exports.deleteUser = function(req, res){
 		res.send(log);
 	});
 };
-
 
 //para nosotros agregar 
 exports.AddUser = function(req, res){
