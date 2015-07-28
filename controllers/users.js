@@ -3,6 +3,8 @@
 var mongoose = require('mongoose');
 var path = require('path');
 
+var bcrypt = require('bcrypt');
+
 // require los modelos de users, empresas, y domiciliarios
 var User = mongoose.model('User');
 var EmpDomiciliario = mongoose.model('EmpDomiciliarioModel');
