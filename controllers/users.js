@@ -30,7 +30,10 @@ exports.updateUser = function(req, res){
 	User.findOne({ _id: req.params.id }, function(err, user){
 		if (err) next(err);
 		// var us = user;
-		user.usuario = req.body.usuario || "sumadre";
+		user.nombre = req.body.nombre;
+		user.email = req.body.nombre;
+		user.telefono = req.body.telefono;
+		user.usuario = req.body.usuario;
 		user.password = req.body.password;
 		console.log(user.body);
 
