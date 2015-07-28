@@ -41,7 +41,7 @@ exports.addEmpDomiciliario = function(req, res){
 	// EN PRUEBA - upload img
 	if(req.files.logoEmpresa){
 		console.log('Cargando el archivo de la Imagen ...');
-		var logoEmpresa = req.files.logoEmpresa.name;
+		var logoEmpresa = req.files.logoEmpresa.path;
 		console.log(logoEmpresa);
 	} else {
 		// si no da foto poner foto default
