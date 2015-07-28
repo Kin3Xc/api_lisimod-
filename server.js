@@ -21,18 +21,12 @@ fs.readdirSync(__dirname+ '/models').forEach(function(filename){
   if (~filename.indexOf('.js')) require(__dirname+'/models/'+filename);
 });
 
-
-// funcion que retora la imagen de la empresa
-app.get('/api/domiciliarios_img/:id', function(req, res){
-  res.send('path:'+__dirname+'/uploads/'+req.params.id);
-});
-
   
 // // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
 
-app.use(multer({ dest: './uploads/'}));
+app.use(multer({ dest: 'http://domisil.co/uploads/'}));
 
 // middlewares
 app.use(bodyParser.urlencoded({ extended: true}));
