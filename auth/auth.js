@@ -117,8 +117,6 @@ exports.faceLogin = function(req, res){
 } // fin faceLogin function
 
 
-
-
 exports.unlinkProvider = function(req, res){
 	var provider = req.params.provider;
 	var providers = ['facebook'];
@@ -137,8 +135,6 @@ exports.unlinkProvider = function(req, res){
 		});
 	});
 }
-
-
 
 
 // function para registro de usuario crea el token

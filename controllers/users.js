@@ -34,12 +34,16 @@ exports.updateUser = function(req, res){
 		user.email = req.body.email;
 		user.telefono = req.body.telefono;
 		user.usuario = req.body.usuario;
-		user.password = req.body.password;
+		// user.password = req.body.password;
 		console.log(user.body);
 
-		user.save(function(err, data){
-			if (err) throw err;
-			res.json({message:"se Actualizo el usuario", data: data});
+		bcrypt.hash(req.body.password, 10, function(err, hash){
+			user.password = hash;
+
+			user.save(function(err, data){
+				if (err) throw err;
+				res.json({message:"se Actualizo el usuario", data: data});
+			});
 		});
 	});
 };
