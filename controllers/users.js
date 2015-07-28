@@ -3,8 +3,6 @@
 var mongoose = require('mongoose');
 var path = require('path');
 
-var bcrypt = require('bcrypt');
-
 // require los modelos de users, empresas, y domiciliarios
 var User = mongoose.model('User');
 var EmpDomiciliario = mongoose.model('EmpDomiciliarioModel');
@@ -39,13 +37,9 @@ exports.updateUser = function(req, res){
 		// user.password = req.body.password;
 		console.log(user.body);
 
-		bcrypt.hash(req.body.password, 10, function(err, hash){
-			user.password = hash;
-
-			user.save(function(err, data){
-				if (err) throw err;
-				res.json({message:"se Actualizo el usuario", data: data});
-			});
+		user.save(function(err, data){
+			if (err) throw err;
+			res.json({message:"se Actualizo el usuario", data: data});
 		});
 	});
 };
@@ -56,6 +50,7 @@ exports.deleteUser = function(req, res){
 		res.send(log);
 	});
 };
+
 
 //para nosotros agregar 
 exports.AddUser = function(req, res){
