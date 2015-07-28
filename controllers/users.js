@@ -39,14 +39,16 @@ exports.updateUser = function(req, res){
 		// user.password = req.body.password;
 		console.log(user.body);
 
-		bcrypt.hash(req.body.password, 10, function(err, hash){
-			user.password = hash;
+		if (req.body.password != ''){
+			bcrypt.hash(req.body.password, 10, function(err, hash){
+				user.password = hash;
 
-			user.save(function(err, data){
-				if (err) throw err;
-				res.json({message:"se Actualizo el usuario", data: data});
+				user.save(function(err, data){
+					if (err) throw err;
+					res.json({message:"se Actualizo el usuario", data: data});
+				});
 			});
-		});
+		}
 	});
 };
 
