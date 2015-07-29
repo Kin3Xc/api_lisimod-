@@ -195,7 +195,7 @@ exports.emailLogin = function(req, res){
 		// if(req.body.password !== null){
 		bcrypt.compare(req.body.password, user.password, function(err, valid){
 			if (err) {return next(err)}
-			if (!valid) {return res.send(401)}
+			if (!valid) {return res.send('contraseña no válida')}
 			return res
 				.status(200)
 				.send({ userId: user._id, token: service.createToken(user) });
