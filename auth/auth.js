@@ -196,19 +196,24 @@ exports.emailLogin = function(req, res){
 		// aqui viene comprobacion de contraseña bcrypt
 		// if(bcryptreq.body.password === null) { return res.send(401)}
 		// if(req.body.password !== null){
-		bcrypt.compare(user.password, req.body.password, function(err, valid){
+		bcrypt.hash(req.body.password, 10, function(err, hash){
+			user.password = hash;
 		
-		// if (err) {return next(err)}
-			// if (!valid) {return res.send('contraseña no válida')}
-		if(!valid){
-			return res.status(401).send({ message: 'contraseña incorrecta' });
-		}
-			return res
-				.status(200)
-				.send({ userId: user._id, token: service.createToken(user) });
+
+			bcrypt.compare(user.password, req.body.password, function(err, valid){
+			
+			// if (err) {return next(err)}
+				// if (!valid) {return res.send('contraseña no válida')}
+			if(!valid){
+				return res.status(401).send({ message: 'contraseña incorrecta' });
+			}
+				return res
+					.status(200)
+					.send({ userId: user._id, token: service.createToken(user) });
+			});
+			// } else{
+			// 	return res.send({message:'llenar el formulario'});
+			// }	
 		});
-		// } else{
-		// 	return res.send({message:'llenar el formulario'});
-		// }	
 	});
 };
