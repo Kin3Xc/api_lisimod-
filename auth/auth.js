@@ -189,13 +189,20 @@ exports.emailLogin = function(req, res){
 	User.findOne({ usuario: req.body.usuario }, function(err, user){
 		if (err) {return next(err)}
 		// if(!user) res.json({success: false, message: 'No existe ese usuario'});
-		if (!user) {return res.send('El usuario no existe')}
+		// if (!user) {return res.send('El usuario no existe')}
+		if(!user){
+			return res.status(401).send({ message: 'El usuario no existe' });
+		}
 		// aqui viene comprobacion de contraseña bcrypt
 		// if(req.body.password === null) { return res.send(401)}
 		// if(req.body.password !== null){
 		bcrypt.compare(req.body.password, user.password, function(err, valid){
-			if (err) {return next(err)}
-			if (!valid) {return res.send('contraseña no válida')}
+		
+		// if (err) {return next(err)}
+			// if (!valid) {return res.send('contraseña no válida')}
+		if(!valid){
+			return res.status(401).send({ message: 'contraseña incorrecta' });
+		}
 			return res
 				.status(200)
 				.send({ userId: user._id, token: service.createToken(user) });
