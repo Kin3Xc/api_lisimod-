@@ -8,7 +8,7 @@ var UserSchema = new Schema({
   email:String,
   telefono: String,
   usuario: String,
-  password:String,
+  password: {type: String, select:false},
 	// displayName: String,
 	picture: String,
 	facebook: String
