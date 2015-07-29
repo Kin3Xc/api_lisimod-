@@ -198,7 +198,7 @@ exports.emailLogin = function(req, res){
 			// if (err) {return res.status(401).send({message:'Error en los datos'})};
 			if (err) throw err;
 			if(!entra){return res.status(401).send({message: "Contraseña incorrecta", result:entra, pwd:user.password, llega:req.body.password})}
-			console.log(req.body.password, 'Estado: '+entra);
+			console.log('Estado: '+entra);
 			return res
 				.status(200)
 				.send({ userId: user._id, token: service.createToken(user) });
