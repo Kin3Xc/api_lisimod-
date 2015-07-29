@@ -194,7 +194,7 @@ exports.emailLogin = function(req, res){
 
 		user.comparePassword(req.body.password, function(err, entra){
 			// if (err) { return res.status(401).send({message: 'Contraseña incorrecta'})};
-			if (err) throw err;
+			if (err) {return res.status(401).send({message:'Error en los datos'})};
 			if(!entra){return res.status(401).send({message: "Contraseña incorrecta", result:entra, pwd:user.password, llega:req.body.password})}
 			console.log('Estado: '+entra);
 			return res
