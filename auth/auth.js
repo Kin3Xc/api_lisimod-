@@ -179,7 +179,7 @@ exports.emailSignup = function(req, res){
 
 
 // prueba libro mean bcrypt - 
-function validateUser(user, password, cb){	
+function validateUser(password, user, cb){	
 	if(user === null) { return;} 
 	bcrypt.compare(password, user.password, cb);
 }
@@ -192,7 +192,7 @@ exports.emailLogin = function(req, res){
 		// aqui viene comprobacion de contraseña bcrypt
 		if (req.body.password === null) { return res.status(401).send({message:'Ingrese su password'})}
 		if(req.body.password !== null){
-			validateUser(user, req.body.password, function(err, valid){
+			validateUser(req.body.password, user, function(err, valid){
 				if(err || !valid){ return res.status(401).send({message: 'Contraseña incorrecta'})}
 				// si no hay error y contraseña es igual devuelvo el token con payload
 				console.log(user._id);
