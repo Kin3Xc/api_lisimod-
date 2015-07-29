@@ -179,26 +179,25 @@ exports.emailSignup = function(req, res){
 
 
 // prueba libro mean bcrypt - 
-function validateUser(user, password, cb){	
-	if(user === null) { return;} 
-	bcrypt.compare(password, user, cb);
-}
+// function validateUser(user, password, cb){	
+// 	if(user === null) { return;} 
+// 	bcrypt.compare(password, user.password, cb);
+// } 
 
 // function para ingresar usuario al sistema
 exports.emailLogin = function(req, res){
 	User.findOne({ usuario: req.body.usuario }, function(err, user){
-		if (err) next(err);
+		if (err) {return next(err)}
 		if(!user) res.json({success: false, message: 'No existe ese usuario'});
 		// aqui viene comprobacion de contraseña bcrypt
 		if (req.body.password === null) { return res.send(401)}
 		if(req.body.password !== null){
-			validateUser(user.password, req.body.password, function(err, valid){
-				if(err || !valid){ return res.send(401)}
-				// si no hay error y contraseña es igual devuelvo el token con payload
-				console.log(user._id);
+			bcrypt.compare(req.body.password, user.password, function(err, valid){
+				if (err) {return next(err)}
+				if (!valid) {return res.send(401)}
 				return res
 					.status(200)
-					.send({ userId: user._id, token: service.createToken(user) });	
+					.send({ userId: user._id, token: service.createToken(user) });
 			});
 		} else{
 			return res.send({message:'llenar el formulario'});
