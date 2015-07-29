@@ -195,9 +195,9 @@ exports.emailLogin = function(req, res){
 			// if (err) { return res.status(401).send({message: 'Contraseña incorrecta'})};
 			if (err) throw err;
 			console.log(valid);
-			return res
-				.status(200)
-				.send({ userId: user._id, token: service.createToken(user) });
+			// return res
+			// 	.status(200)
+			// 	.send({ userId: user._id, token: service.createToken(user) });
 		});
 	});
 
