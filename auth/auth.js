@@ -188,12 +188,12 @@ function validateUser(user, password, cb){
 exports.emailLogin = function(req, res){
 	User.findOne({ usuario: req.body.usuario }, function(err, user){
 		if (err) next(err);
-		if(!user) res.json({success: false, message: 'No existe ese usuario'});
+		if(user) res.json({success: false, message: 'No existe ese usuario'});
 		// aqui viene comprobacion de contraseña bcrypt
-		// if (req.body.password === null) { return res.send(401)}
+		if (req.body.password === null) { return res.send(401)}
 		if(req.body.password !== null){
 			validateUser(user.usuario, req.body.password, function(err, valid){
-				if(!valid){ return res.send(401)}
+				if(err || !valid){ return res.send(401)}
 				// si no hay error y contraseña es igual devuelvo el token con payload
 				console.log(user._id);
 				return res
