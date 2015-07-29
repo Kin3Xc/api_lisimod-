@@ -198,7 +198,7 @@ exports.emailLogin = function(req, res){
 				.status(200)
 				.send({ token: service.createToken(user) });	
 		});
-		
+	});
 
 	// User.findOne({ usuario: req.body.usuario }, function(err, user){
 	// 	if (err) next(err);
