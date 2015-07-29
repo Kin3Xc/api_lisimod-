@@ -197,10 +197,10 @@ exports.emailLogin = function(req, res){
 		// if(bcryptreq.body.password === null) { return res.send(401)}
 		// if(req.body.password !== null){
 		bcrypt.hash(req.body.password, 10, function(err, hash){
-			user.password = hash;
+			// user.password = hash;
 		
 
-			bcrypt.compare(user.password, req.body.password, function(err, valid){
+			bcrypt.compare(user.password, hash, function(err, valid){
 			
 			// if (err) {return next(err)}
 				// if (!valid) {return res.send('contraseña no válida')}
