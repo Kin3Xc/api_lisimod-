@@ -15,18 +15,18 @@ var UserSchema = new Schema({
 });
 
 //correr antes de .save()
-UserSchema.pre('save', function(next) {
-  var user = this;
-  if (!user.isModified('password')) {
-    return next();
-  }
-  bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(user.password, salt, function(err, hash) {
-      user.password = hash;
-      next();
-    });
-  });
-});
+// UserSchema.pre('save', function(next) {
+//   var user = this;
+//   if (!user.isModified('password')) {
+//     return next();
+//   }
+//   bcrypt.genSalt(10, function(err, salt) {
+//     bcrypt.hash(user.password, salt, function(err, hash) {
+//       user.password = hash;
+//       next();
+//     });
+//   });
+// });
 
 
 
