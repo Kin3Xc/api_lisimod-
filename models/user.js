@@ -7,7 +7,7 @@ var UserSchema = new Schema({
 	nombre:String,
   email:String,
   telefono: String,
-  usuario: {type: String, unique: true, lowercase: true},
+  usuario: { type: String, required: true, index: { unique: true } },
   password: {type: String, select:false},
 	// displayName: String,
 	picture: String,
@@ -29,7 +29,13 @@ UserSchema.pre('save', function(next) {
 
 });
 
-
+UserSchema.methods.comparePassword = function(password, done){
+ bcrypt.compare(password, this.password, function(err, isMatch){
+   // done(err, isMatch);
+  if (err) return done(err);
+  done(null, isMatch);
+ });
+};
 
 
 module.exports = mongoose.model('User', UserSchema);
