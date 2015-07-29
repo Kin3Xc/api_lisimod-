@@ -143,7 +143,8 @@ exports.emailSignup = function(req, res){
 		nombre: req.body.nombre,
 		email:req.body.email,
 		telefono:req.body.telefono,
-		usuario: req.body.usuario
+		usuario: req.body.usuario,
+		password: req.body.password
 		// acá pongo el resto de parametros del modelo
 	});
 
@@ -165,8 +166,8 @@ exports.emailSignup = function(req, res){
 		console.log('Mensaje enviado: ' + info.response);
 	});
 
-	bcrypt.hash(req.body.password, 10, function(err, hash){
-		user.password = hash;
+	// bcrypt.hash(req.body.password, 10, function(err, hash){
+		// user.password = hash;
 	
 		user.save(function(err){
 			if (err) { throw next(err) }
@@ -174,14 +175,14 @@ exports.emailSignup = function(req, res){
 				.status(200)
 				.send({userId: user._id, token: service.createToken(user)});
 		});
-	});
+	// });
 };
 
 
 // prueba libro mean bcrypt - 
-function validateUser(user, password, cb){
-	bcrypt.compare(password, user.password, cb);
-}
+// function validateUser(user, password, cb){
+// 	bcrypt.compare(password, user.password, cb);
+// }
 
 // function para ingresar usuario al sistema
 exports.emailLogin = function(req, res){
@@ -191,10 +192,11 @@ exports.emailLogin = function(req, res){
 		if(!user) res.json({success: false, message: 'No existe ese usuario'});
 		// aqui viene comprobacion de contraseña bcrypt
 
-		user.comparePassword(req.body.password, function(err, valid){
+		user.comparePassword(req.body.password, function(err, entra){
 			// if (err) { return res.status(401).send({message: 'Contraseña incorrecta'})};
 			if (err) throw err;
-			console.log('Estado: '+valid);
+			if(!entra){return res.status().send({message: "Contraseña incorrecta", result:entra, pwd:user.password, llega:req.body.password})}
+			console.log('Estado: '+entra);
 			return res
 				.status(200)
 				.send({ userId: user._id, token: service.createToken(user) });
