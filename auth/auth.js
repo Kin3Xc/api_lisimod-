@@ -190,8 +190,7 @@ exports.emailLogin = function(req, res){
 	// console.log('ahora aqui email Login');
 	User.findOne({ usuario: req.body.usuario }, function(err, user){
 		// if (err) next(err);
-		// if(!user) res.json({success: false, message: 'No existe ese usuario'});
-		if(!user) res.send(401);
+		if(!user) res.json({success: false, message: 'No existe ese usuario'});
 		// aqui viene comprobacion de contraseña bcrypt
 		if (req.body.password === null) { return res.send(401)}
 		if(req.body.password !== null){
