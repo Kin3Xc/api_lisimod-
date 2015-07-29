@@ -191,7 +191,7 @@ exports.emailLogin = function(req, res){
 		if(!user) res.json({success: false, message: 'No existe ese usuario'});
 		// aqui viene comprobacion de contraseña bcrypt
 
-		User.comparePassword(req.body.password, function(err, valid){
+		user.comparePassword(req.body.password, function(err, valid){
 			// if (err) { return res.status(401).send({message: 'Contraseña incorrecta'})};
 			if (err) throw err;
 			console.log(valid);
