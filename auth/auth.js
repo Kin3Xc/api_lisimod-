@@ -193,7 +193,7 @@ exports.emailLogin = function(req, res){
 		if (req.body.password === null) { return res.status(401).send({message:'Ingrese su password'})}
 		if(req.body.password !== null){
 			validateUser(user, req.body.password, function(err, valid){
-				if(err || !valid){ return res.send(401).send({message: 'Contraseña incorrecta'})}
+				if(err || !valid){ return res.status(401).send({message: 'Contraseña incorrecta'})}
 				// si no hay error y contraseña es igual devuelvo el token con payload
 				console.log(user._id);
 				return res
