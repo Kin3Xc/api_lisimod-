@@ -199,12 +199,12 @@ exports.emailLogin = function(req, res){
 		bcrypt.hash(req.body.password, 10, function(err, hash){
 			// user.password = hash;
 			
-			if (hash === user.password) {
+			if (hash == user.password) {
 				return res
 			 		.status(200)
 					.send({ userId: user._id, token: service.createToken(user) });
 			}else{
-				return res.status(401).send({ message: 'Datos incorrectos', data: user.password});
+				return res.status(401).send({ message: 'Datos incorrectos', data: user.password, otro: hash});
 			}
 
 			// bcrypt.compare(hash, user.password, function(err, valid){
