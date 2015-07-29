@@ -179,48 +179,29 @@ exports.emailSignup = function(req, res){
 
 
 // prueba libro mean bcrypt - 
-// function validateUser(user, password, cb){	
-// 	if(user === null) { return;} 
-// 	bcrypt.compare(password, user.password, cb);
-// } 
+function validateUser(user, password, cb){	
+	if(user === null) { return;} 
+	bcrypt.compare(password, user.password, cb);
+}
 
 // function para ingresar usuario al sistema
 exports.emailLogin = function(req, res){
 	User.findOne({ usuario: req.body.usuario }, function(err, user){
-		if (err) {return next(err)}
-		// if(!user) res.json({success: false, message: 'No existe ese usuario'});
-		// if (!user) {return res.send('El usuario no existe')}
-		if(!user){
-			return res.status(401).send({ message: 'El usuario no existe' });
-		}
+		if (err) next(err);
+		if(!user) res.json({success: false, message: 'No existe ese usuario'});
 		// aqui viene comprobacion de contraseña bcrypt
-		// if(bcryptreq.body.password === null) { return res.send(401)}
-		// if(req.body.password !== null){
-		bcrypt.hash(req.body.password, 10, function(err, hash){
-			// user.password = hash;
-			
-			if (hash == user.password) {
+		if (req.body.password === null) { return res.send(401)}
+		if(req.body.password !== null){
+			validateUser(user, req.body.password, function(err, valid){
+				if(err || !valid){ return res.send(401)}
+				// si no hay error y contraseña es igual devuelvo el token con payload
+				console.log(user._id);
 				return res
-			 		.status(200)
-					.send({ userId: user._id, token: service.createToken(user) });
-			}else{
-				return res.status(401).send({ message: 'Datos incorrectos', data: user.password, otro: hash});
-			}
-
-			// bcrypt.compare(hash, user.password, function(err, valid){
-			
-			// if (err) {return next(err)}
-				// if (!valid) {return res.send('contraseña no válida')}
-			// if(!valid){
-			// 	return res.status(401).send({ message: 'contraseña incorrecta' });
-			// }
-			// 	return res
-			// 		.status(200)
-			// 		.send({ userId: user._id, token: service.createToken(user) });
-			// });
-			// } else{
-			// 	return res.send({message:'llenar el formulario'});
-			// }	
-		});
+					.status(200)
+					.send({ userId: user._id, token: service.createToken(user) });	
+			});
+		} else{
+			return res.send({message:'llenar el formulario'});
+		}	
 	});
 };
