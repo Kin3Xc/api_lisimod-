@@ -193,7 +193,7 @@ exports.emailLogin = function(req, res){
 		if (!user) {return res.send(401)}
 		bcrypt.compare(req.body.password, user.password, function(err, valid){
 			if (err) {return next(err)}
-			if (!valid) {return res.status(401).send({message:'pass incorrecta', result:valid, pwd:user.password})}
+			if (!valid) {return res.status(401).send({message:'pass incorrecta', result:valid, pwd:user.password, llega:req.body.password})}
 			return res
 				.status(200)
 				.send({ userId: user._id, token: service.createToken(user) });	
