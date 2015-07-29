@@ -194,7 +194,7 @@ exports.emailLogin = function(req, res){
 		User.comparePassword(req.body.password, function(err, valid){
 			// if (err) { return res.status(401).send({message: 'Contraseña incorrecta'})};
 			if (err) throw err;
-			console.log(req.body.password, valid);
+			console.log(valid);
 			// return res
 			// 	.status(200)
 			// 	.send({ userId: user._id, token: service.createToken(user) });
