@@ -200,7 +200,7 @@ exports.emailLogin = function(req, res){
 			// user.password = hash;
 		
 
-			bcrypt.compare(user.password, hash, function(err, valid){
+			bcrypt.compare(hash, user.password, function(err, valid){
 			
 			// if (err) {return next(err)}
 				// if (!valid) {return res.send('contraseña no válida')}
