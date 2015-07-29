@@ -181,7 +181,7 @@ exports.emailSignup = function(req, res){
 // prueba libro mean bcrypt - 
 function validateUser(user, password, cb){	
 	if(user === null) { return;} 
-	bcrypt.compare(password, user.password, cb);
+	bcrypt.compare(password, user, cb);
 }
 
 // function para ingresar usuario al sistema
