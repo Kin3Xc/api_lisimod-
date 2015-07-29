@@ -194,9 +194,9 @@ exports.emailLogin = function(req, res){
 			return res.status(401).send({ message: 'El usuario no existe' });
 		}
 		// aqui viene comprobacion de contraseña bcrypt
-		// if(req.body.password === null) { return res.send(401)}
+		// if(bcryptreq.body.password === null) { return res.send(401)}
 		// if(req.body.password !== null){
-		bcrypt.compare(req.body.password, user.password, function(err, valid){
+		bcrypt.compare(user.password, req.body.password, function(err, valid){
 		
 		// if (err) {return next(err)}
 			// if (!valid) {return res.send('contraseña no válida')}
