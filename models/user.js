@@ -8,7 +8,7 @@ var UserSchema = new Schema({
   email:String,
   telefono: String,
   usuario: { type: String, required: true, index: { unique: true } },
-  password: {type: String, select:false},
+  password: { type: String, required: true },
 	// displayName: String,
 	picture: String,
 	facebook: String
