@@ -192,8 +192,8 @@ exports.emailLogin = function(req, res){
 		// aqui viene comprobacion de contraseña bcrypt
 		// if (req.body.password === null) { return res.send(401)}
 		if(req.body.password != null){
-			validateUser(user, req.body.password, function(err, valid){
-				// if(err || !valid){ return res.send(401)}
+			validateUser(user.usuario, req.body.password, function(err, valid){
+				if(err || !valid){ return res.send(401)}
 				// si no hay error y contraseña es igual devuelvo el token con payload
 				// console.log(user._id);
 				return res
