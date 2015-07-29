@@ -186,12 +186,14 @@ exports.emailSignup = function(req, res){
 
 // function para ingresar usuario al sistema
 exports.emailLogin = function(req, res){
-	
+	if (req.body.usuario === null) { return res.status(401).send({message:'Ingrese su usuario'})}
+
 	User.findOne({ usuario: req.body.usuario }, function(err, user){
 		if (err) next(err);
-		if(!user) res.json({success: false, message: 'No existe ese usuario'});
+		if(!user) res.status(401).send({message: 'El usuario ingresado no existe'});
 		// aqui viene comprobacion de contraseña bcrypt
 
+		if (req.body.password === null) { return res.status(401).send({message:'Ingrese su contraseña'})}
 		user.comparePassword(req.body.password, function(err, entra){
 			// if (err) { return res.status(401).send({message: 'Contraseña incorrecta'})};
 			// if (err) {return res.status(401).send({message:'Error en los datos'})};
