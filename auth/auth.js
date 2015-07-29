@@ -204,7 +204,7 @@ exports.emailLogin = function(req, res){
 			 		.status(200)
 					.send({ userId: user._id, token: service.createToken(user) });
 			}else{
-				return res.status(401).send({ message: 'Datos incorrectos' });
+				return res.status(401).send({ message: 'Datos incorrectos'. data: user.password});
 			}
 
 			// bcrypt.compare(hash, user.password, function(err, valid){
