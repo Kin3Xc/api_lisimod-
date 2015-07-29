@@ -192,7 +192,7 @@ exports.emailLogin = function(req, res){
 		// aqui viene comprobacion de contraseña bcrypt
 
 		comparePassword(req.body.password, function(err, valid){
-			if (err) { return res.status(401).send({message: 'Contraseña incorrecta'})}
+			if (err) { return res.status(401).send({message: 'Contraseña incorrecta'})};
 			return res
 				.status(200)
 				.send({ userId: user._id, token: service.createToken(user) });
