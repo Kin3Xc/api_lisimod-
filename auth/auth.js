@@ -186,19 +186,20 @@ function validateUser(password, user, cb){
 
 // function para ingresar usuario al sistema
 exports.emailLogin = function(req, res){
-	User.findOne({usuario: req.body.usuario})
-	.select('password')
-	.exec(function(err, user){
-		if (err) {return next(err)}
-		if (!user) {return res.send(401)}
-		bcrypt.compare(req.body.password, user.password, function(err, valid){
-			if (err) {return next(err)}
-			if (!valid) {return res.status(401).send({message:'pass incorrecta', result:valid, pwd:user.password, llega:req.body.password})}
+	User.findOne({ usuario: req.body.usuario }, function(err, user){
+ 		if (err) next(err);
+ 		if(!user) res.json({success: false, message: 'No existe ese usuario'});
+		// aqui viene comprobacion de contraseña
+		// aqui viene comprobacion de contraseña bcrypt
+		validateUser(user, req.body.password, function(err, valid){
+			if(err || !valid){ return res.send(401)}
+			// si no hay error y contraseña es igual devuelvo el token con payload
 			return res
 				.status(200)
-				.send({ userId: user._id, token: service.createToken(user) });	
-		})
-	})
+				.send({ token: service.createToken(user) });	
+		});
+		
+
 	// User.findOne({ usuario: req.body.usuario }, function(err, user){
 	// 	if (err) next(err);
 	// 	if(!user) res.status(401).send({message: 'No existe ese usuario'});
