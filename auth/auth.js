@@ -198,19 +198,26 @@ exports.emailLogin = function(req, res){
 		// if(req.body.password !== null){
 		bcrypt.hash(req.body.password, 10, function(err, hash){
 			// user.password = hash;
-		
+			
+			if (hash === user.password) {
+				return res
+			 		.status(200)
+					.send({ userId: user._id, token: service.createToken(user) });
+			}else{
+				return res.status(401).send({ message: 'Datos incorrectos' });
+			}
 
-			bcrypt.compare(hash, user.password, function(err, valid){
+			// bcrypt.compare(hash, user.password, function(err, valid){
 			
 			// if (err) {return next(err)}
 				// if (!valid) {return res.send('contraseña no válida')}
-			if(!valid){
-				return res.status(401).send({ message: 'contraseña incorrecta' });
-			}
-				return res
-					.status(200)
-					.send({ userId: user._id, token: service.createToken(user) });
-			});
+			// if(!valid){
+			// 	return res.status(401).send({ message: 'contraseña incorrecta' });
+			// }
+			// 	return res
+			// 		.status(200)
+			// 		.send({ userId: user._id, token: service.createToken(user) });
+			// });
 			// } else{
 			// 	return res.send({message:'llenar el formulario'});
 			// }	
