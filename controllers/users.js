@@ -35,7 +35,7 @@ exports.updateUser = function(req, res){
 		user.telefono = req.body.telefono;
 		user.usuario = req.body.usuario;
 		// user.password = req.body.password;
-		console.log('USUARIO: '+user.body.password);
+		console.log('USUARIO: '+req.body.password);
 
 		// verifico si el pwd viene vacio
 		if (req.body.password !== '') {
