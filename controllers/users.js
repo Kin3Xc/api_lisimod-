@@ -43,7 +43,7 @@ exports.updateUser = function(req, res){
 		}
 
 		user.save(function(err, data){
-			if (err) throw err;
+			if (err) res.send({message: 'Error al almacenar los datos'});
 			res.json({message:"se Actualizo el usuario", data: data});
 		});
 	});
