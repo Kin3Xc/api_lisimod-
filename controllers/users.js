@@ -34,8 +34,13 @@ exports.updateUser = function(req, res){
 		user.email = req.body.email;
 		user.telefono = req.body.telefono;
 		user.usuario = req.body.usuario;
-		// user.password = req.body.password;
+		user.password = req.body.password;
 		console.log(user.body);
+
+		// verifico si el pwd viene vacio
+		if (req.body.password !== '') {
+			user.password = req.body.password;
+		}
 
 		user.save(function(err, data){
 			if (err) throw err;
