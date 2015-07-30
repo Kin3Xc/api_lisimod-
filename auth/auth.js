@@ -155,7 +155,7 @@ exports.emailSignup = function(req, res){
 		to: req.body.email,
 		subject: 'Confirmación de registro',
 		text: 'Esta es una prueba de envio de correo, tulizando la libreria Nodemailer de JS',
-		html: '<h1>Registro éxitoso!</h1> <p>El registro se realizo exitosamente, sus datos fueron almacenados</>'
+		html: "<h1 style='color: #c0392b;'>Registro éxitoso!</h1> <p style='color:#7f8c8d;'>Usted se ha registrado correctamente en Domisil.co</p>"
 	};
 
 	// Envio el mail con el transportador definido
