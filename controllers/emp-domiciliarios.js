@@ -58,19 +58,23 @@ exports.addEmpDomiciliario = function(req, res){
 		logoEmpresa: logoEmpresa
 
 	});	
+
+	// envio mail al usuario registrado
+	// los datos de configuracion de correo con simbolo unicode
+	var mailOptions = {
+		from: 'Domisil Team <elkin@oglit.com>',
+		to: req.body.email,
+		subject: 'Confirmación de registro',
+		text: 'Registro de empresa',
+		html: "<h1 style='color: #c0392b;'>Registro éxitoso!</h1> <p style='color:#7f8c8d;'>Usted se ha registrado correctamente en <a href='http://www.domisil.co'>Domisil.co</a></p>"
+		// html: '<h1>Registro éxitoso</h1> <p>Usted se registro en <a href="http://www.domisil.co" />Domisil.co</p>'
+	};
+
 	// guardar datos en la db
 	emp.save(function(err, data){
 		if (err) res.send(err);
+
 		res.json({message:"Se agrego correctamente", data: data});
-		// envio mail al usuario registrado
-		// los datos de configuracion de correo con simbolo unicode
-		var mailOptions = {
-			from: 'Domisil Team <elkin@oglit.com>',
-			to: req.body.email,
-			subject: 'Confirmación de registro',
-			text: 'Confirmación de registro',
-			html: '<h1>Registro éxitoso</h1> <p>Usted se registro en <a href="http://www.domisil.co" />Domisil.co</p>'
-		};
 
 		// Envio el mail con el transportador definido
 		transporter.sendMail(mailOptions, function(error, info){

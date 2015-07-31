@@ -154,27 +154,27 @@ exports.emailSignup = function(req, res){
 		from: 'Domisil Team <elkin@oglit.com>',
 		to: req.body.email,
 		subject: 'Confirmación de registro',
-		text: 'Esta es una prueba de envio de correo, tulizando la libreria Nodemailer de JS',
-		// html: "<h1 style='color: #c0392b;'>Registro éxitoso!</h1> <p style='color:#7f8c8d;'>Usted se ha registrado correctamente en Domisil.co</p>"
-		html: '../email/user'
+		text: 'Registro de usuario',
+		html: "<h1 style='color: #c0392b;'>Registro éxitoso!</h1> <p style='color:#7f8c8d;'>Usted se ha registrado correctamente en <a href='http://www.domisil.co'>Domisil.co</a></p>"
 	};
-
-	// Envio el mail con el transportador definido
-	transporter.sendMail(mailOptions, function(error, info){
-		if (error) {
-			return console.log(error);
-		}
-		console.log('Mensaje enviado: ' + info.response);
-	});
 
 	// bcrypt.hash(req.body.password, 10, function(err, hash){
 		// user.password = hash;
 	
 		user.save(function(err){
-			if (err) { throw next(err) }
-			return res
+			if (err) { throw next(err) }//Si hubo error
+
+			return res // si todo esta bien
 				.status(200)
 				.send({userId: user._id, token: service.createToken(user)});
+
+			// Envio el mail con el transportador definido
+			transporter.sendMail(mailOptions, function(error, info){
+			if (error) {
+				return console.log(error);
+			}
+				console.log('Mensaje enviado: ' + info.response);
+			});
 		});
 	// });
 };

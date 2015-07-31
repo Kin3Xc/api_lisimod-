@@ -7,6 +7,18 @@ var Service = require('../models/service');
 var User = mongoose.model('User');
 var EmpDomiciliario = mongoose.model('EmpDomiciliarioModel');
 
+var nodemailer = require('nodemailer');
+
+// creo un objeto encargado de transportar el mensaje por medio del protocolo SMTP
+// este objeto se crea una sol vez y se puede utulizar por los diferentes metodos de la app
+var transporter = nodemailer.createTransport({
+	service: 'Gmail',
+	auth:{
+		user: 'elkinjuc@gmail.com',
+		pass: 'rootshell'
+	}
+});
+
 
 //R*
 exports.findAllServices = function(req, res){
@@ -56,6 +68,17 @@ exports.addOneService = function(req, res){
 		dirOrigen: req.body.dirOrigen,
 		dirDestino: req.body.dirDestino
 	});
+
+	// envio mail al usuario registrado
+	// los datos de configuracion de correo con simbolo unicode
+	var mailOptions = {
+		from: 'Domisil Team <elkin@oglit.com>',
+		to: req.body.email,
+		subject: 'Nuevo servicio',
+		text: 'Nuevo servicio',
+		html: "<h1 style='color: #c0392b;'>Nuevo servicio en Domisil.co</h1> <p style='color:#7f8c8d;'>Su servicio se ha enviado correctamente, pronto nos pondremos en contacto con usted. <br><br><br> Cordialmente, <br>Team Domisil <br> Bogotá - Colombia <br> <a href='http://www.domisil.co'>Domisil.co</a></p>"
+		// html: '<h1>Registro éxit Bogotá - Colombia <br>oso</h1> <p>Usted se registro en <a href="http://www.domisil.co" />Domisil.co</p>'
+	};
 
 	console.log(service);
 
