@@ -72,7 +72,7 @@ exports.addEmpDomiciliario = function(req, res){
 
 	// guardar datos en la db
 	emp.save(function(err, data){
-		if (err) res.send(err);
+		if (err) {return res.send({message: 'Error al almacenar los datos'})}
 
 		res.json({message:"Se agrego correctamente", data: data});
 
@@ -84,7 +84,7 @@ exports.addEmpDomiciliario = function(req, res){
 			console.log('Mensaje enviado: ' + info.response);
 		});
 
-		});
+	});
 }
 
 // Actualiza empresa domiciliarios

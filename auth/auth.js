@@ -162,7 +162,7 @@ exports.emailSignup = function(req, res){
 		// user.password = hash;
 	
 		user.save(function(err){
-			if (err) { throw next(err) }//Si hubo error
+			if (err) {return res.send({message: 'Error al almacenar los datos'}) }//Si hubo error
 
 			return res // si todo esta bien
 				.status(200)
