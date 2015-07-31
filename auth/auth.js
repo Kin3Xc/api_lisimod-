@@ -110,7 +110,7 @@ exports.faceLogin = function(req, res){
 				user.picture = 'https://graph.facebook.com/'+ profile.id + '/picture?type=large';
 				user.nombre =  profile.name;
 				user.email = profile.email;
-
+				
 				console.log('3b ID: '+user.facebook);
 				console.log('3b NOMBRE: '+user.nombre);
 				console.log('3b EMAIL: '+user.email);
