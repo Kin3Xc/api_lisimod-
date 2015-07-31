@@ -82,14 +82,16 @@ exports.faceLogin = function(req, res){
 
 					// si el user si es encontrado
 					user.facebook = profile.id;
-					user.picture = user.picture || 'http://graph.facebook.com/v2.3/'+profile.id+'/picture?type=large';
-					user.nombre = user.nombre || profile.name;
-					user.email = user.email || profile.email;
+					user.picture =  'http://graph.facebook.com/v2.3/'+profile.id+'/picture?type=large';
+					user.nombre = profile.name;
+					user.email = profile.email;
 
-					console.log('USUARIO: '+profile.email);
+					console.log('ID: '+profile.id);
+					console.log('NOMBRE: '+profile.name);
+					console.log('EMAIL: '+profile.email);
 
-					user.save(function(err, data){
-						if (err) {return res.status(401).send({message: 'Error al almacenar los datos', data: data}) }//Si hubo error
+					user.save(function(err, datos){
+						if (err) {return res.status(401).send({message: 'Error al almacenar los datos', data: datos}) }//Si hubo error
 						var token = service.createToken(user);
 						// devuelvo el token
 						res.send({userId: user._id, token: token});
@@ -109,10 +111,12 @@ exports.faceLogin = function(req, res){
 				user.nombre =  profile.name;
 				user.email = profile.email;
 
+				console.log('ID: '+profile.id);
+				console.log('NOMBRE: '+profile.name);
 				console.log('EMAIL: '+profile.email);
 
-				user.save(function(err, data){
-					if (err) {return res.status(401).send({message: 'Error al almacenar los datos', data: data}) }//Si hubo error
+				user.save(function(err, datos){
+					if (err) {return res.status(401).send({message: 'Error al almacenar los datos', data: datos}) }//Si hubo error
 					var token = service.createToken(user);
 					res.send({userId: user._id, token: token});
 				});
