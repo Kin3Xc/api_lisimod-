@@ -82,17 +82,16 @@ exports.faceLogin = function(req, res){
 
 					// si el user si es encontrado
 					user.facebook = profile.id;
-					user.picture =  'http://graph.facebook.com/v2.3/'+profile.id+'/picture?type=large';
-					user.nombre = profile.name;
-					user.email = profile.email;
-					user.usuario = profile.name;
+					user.picture = user.picture || 'http://graph.facebook.com/v2.3/'+profile.id+'/picture?type=large';
+					user.usuario = user.usuario || profile.name;
+					user.nombre = user.nombre || profile.name;
+					user.email = user.email || profile.email;
 
-					console.log('ID: '+profile.id);
-					console.log('NOMBRE: '+profile.name);
-					console.log('EMAIL: '+profile.email);
+					console.log('NOMBRE: '+user.nombre);
+					console.log('EMAIL: '+user.email);
 
 					user.save(function(err){
-						if (err) {return res.status(401).send({message: 'Error al almacenar los datos'}) }//Si hubo error
+						if (err) {return res.send({message: 'Error al almacenar los datos de facebook'}) }//Si hubo error
 						var token = service.createToken(user);
 						// devuelvo el token
 						res.send({userId: user._id, token: token});
@@ -108,18 +107,16 @@ exports.faceLogin = function(req, res){
 				}
 				var user = new User();
 				user.facebook = profile.id;
-				user.picture = 'https://graph.facebook.com/'+ profile.id + '/picture?type=large';
-				user.nombre =  profile.name;
-				user.email = profile.email;
-				user.usuario = profile.name;
+				user.picture = user.picture || 'https://graph.facebook.com/'+ profile.id + '/picture?type=large';
+				user.usuario = user.usuario || profile.name;
+				user.nombre = user.nombre || profile.name;
+				user.email = user.email || profile.email;
 
-				console.log('3b ID: '+user.facebook);
-				console.log('3b NOMBRE: '+user.nombre);
-				console.log('3b EMAIL: '+user.email);
-				console.log('3b USUARIO: '+user.usuario);
+				console.log('NOMBRE: '+user.nombre);
+				console.log('EMAIL: '+user.email);
 
 				user.save(function(err){
-					if (err) {return res.status(401).send({message: 'Error al almacenar los datos'}) }//Si hubo error
+					if (err) {return res.send({message: 'Error al almacenar los datos de facebook'}) }//Si hubo error
 					var token = service.createToken(user);
 					res.send({userId: user._id, token: token});
 				});
