@@ -109,7 +109,7 @@ exports.faceLogin = function(req, res){
 				user.nombre = user.nombre || profile.name;
 				user.email = user.email || profile.email;
 
-				console.log('USUARIO: '+profile.name);
+				console.log('USUARIO: '+profile.email);
 
 				user.save(function(err, data){
 					if (err) {return res.send({message: 'Error al almacenar los datos', data: data}) }//Si hubo error
