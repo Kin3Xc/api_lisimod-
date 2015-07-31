@@ -5,11 +5,11 @@ var bcrypt = require('bcrypt');
 var UserSchema = new Schema({
 	// email: {type: String, unique: true, lowercase: true},
 	nombre:String,
-  email:String,
-  telefono: String,
   usuario: { type: String, required: true, index: { unique: true } },
   password: { type: String, required: true },
-	// displayName: String,
+  // displayName: String,
+  email:String,
+  telefono: String,
 	picture: String,
 	facebook: String
 });
