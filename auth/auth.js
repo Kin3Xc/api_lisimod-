@@ -111,8 +111,7 @@ exports.faceLogin = function(req, res){
 				user.email = profile.email;
 				console.log('USUARIO: '+profile.name);
 
-				user.save(function(err){
-					if (err) {return res.send({message: 'Error al almacenar los datos de facebook'}) }//Si hubo error
+				user.save(function(){
 					var token = service.createToken(user);
 					res.send({userId: user._id, token: token});
 				});
