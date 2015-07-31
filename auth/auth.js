@@ -83,10 +83,13 @@ exports.faceLogin = function(req, res){
 					// si el user si es encontrado
 					user.facebook = profile.id;
 					user.picture = user.picture || 'http://graph.facebook.com/v2.3/'+profile.id+'/picture?type=large';
-					user.usuario = user.usuario || profile.name;
-					console.log('USUARIO: '+profile.name);
+					user.nombre = user.nombre || profile.name;
+					user.email = user.email || profile.email;
 
-					user.save(function(){
+					console.log('USUARIO: '+profile.email);
+
+					user.save(function(err, data){
+						if (err) {return res.send({message: 'Error al almacenar los datos', data: data}) }//Si hubo error
 						var token = service.createToken(user);
 						// devuelvo el token
 						res.send({userId: user._id, token: token});
@@ -103,10 +106,13 @@ exports.faceLogin = function(req, res){
 				var user = new User();
 				user.facebook = profile.id;
 				user.picture = 'https://graph.facebook.com/'+ profile.id + '/picture?type=large';
-				user.usuario = profile.name;
+				user.nombre = user.nombre || profile.name;
+				user.email = user.email || profile.email;
+
 				console.log('USUARIO: '+profile.name);
 
-				user.save(function(){
+				user.save(function(err, data){
+					if (err) {return res.send({message: 'Error al almacenar los datos', data: data}) }//Si hubo error
 					var token = service.createToken(user);
 					res.send({userId: user._id, token: token});
 				});
