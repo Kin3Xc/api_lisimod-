@@ -6,7 +6,7 @@ var UserSchema = new Schema({
 	// email: {type: String, unique: true, lowercase: true},
 	nombre:String,
   usuario: { type: String, required: true, index: { unique: true } },
-  password: { type: String, required: true },
+  password: String,
   // displayName: String,
   email:String,
   picture: String,
