@@ -78,7 +78,7 @@ exports.addOneService = function(req, res){
 		// los datos de configuracion de correo con simbolo unicode
 		var mailOptions = {
 			from: 'Domisil Team <elkin@oglit.com>',
-			to: usuario.email,
+			to: usuario.email + ', danielr50@hotmail.com, kin3xc@hotmail.com', //FALTA DEFINIR
 			subject: 'Nuevo servicio',
 			text: 'Nuevo servicio',
 			html: "<h1 style='color: #c0392b;'>Nuevo servicio en Domisil.co</h1> <p style='color:#7f8c8d;'>Su servicio se ha enviado correctamente, pronto nos pondremos en contacto con usted. <br><br><br> Cordialmente, <br>Team Domisil <br> Bogotá - Colombia <br> <a href='http://www.domisil.co'>Domisil.co</a></p>"
