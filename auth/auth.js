@@ -90,8 +90,8 @@ exports.faceLogin = function(req, res){
 					console.log('NOMBRE: '+user.nombre);
 					console.log('EMAIL: '+user.email);
 
-					user.save(function(err){
-						if (err) {return res.send({message: 'Error al almacenar los datos de facebook'}) }//Si hubo error
+					user.save(function(){
+						// if (err) {return res.send({message: 'Error al almacenar los datos de facebook'}) }//Si hubo error
 						var token = service.createToken(user);
 						// devuelvo el token
 						res.send({userId: user._id, token: token});
@@ -115,8 +115,8 @@ exports.faceLogin = function(req, res){
 				console.log('NOMBRE: '+user.nombre);
 				console.log('EMAIL: '+user.email);
 
-				user.save(function(err){
-					if (err) {return res.send({message: 'Error al almacenar los datos de facebook'}) }//Si hubo error
+				user.save(function(){
+					// if (err) {return res.send({message: 'Error al almacenar los datos de facebook'}) }//Si hubo error
 					var token = service.createToken(user);
 					res.send({userId: user._id, token: token});
 				});
