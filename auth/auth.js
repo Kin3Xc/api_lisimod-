@@ -85,6 +85,7 @@ exports.faceLogin = function(req, res){
 					user.picture =  'http://graph.facebook.com/v2.3/'+profile.id+'/picture?type=large';
 					user.nombre = profile.name;
 					user.email = profile.email;
+					user.usuario = profile.name;
 
 					console.log('ID: '+profile.id);
 					console.log('NOMBRE: '+profile.name);
@@ -110,10 +111,12 @@ exports.faceLogin = function(req, res){
 				user.picture = 'https://graph.facebook.com/'+ profile.id + '/picture?type=large';
 				user.nombre =  profile.name;
 				user.email = profile.email;
-				
+				user.usuario = profile.name;
+
 				console.log('3b ID: '+user.facebook);
 				console.log('3b NOMBRE: '+user.nombre);
 				console.log('3b EMAIL: '+user.email);
+				console.log('3b USUARIO: '+user.usuario);
 
 				user.save(function(err){
 					if (err) {return res.status(401).send({message: 'Error al almacenar los datos'}) }//Si hubo error
