@@ -6,6 +6,7 @@ var path = require('path');
 var Service = require('../models/service');
 var User = mongoose.model('User');
 var EmpDomiciliario = mongoose.model('EmpDomiciliarioModel');
+var Usuario = require('../models/user');
 
 var nodemailer = require('nodemailer');
 
@@ -69,22 +70,37 @@ exports.addOneService = function(req, res){
 		dirDestino: req.body.dirDestino
 	});
 
-	// envio mail al usuario registrado
-	// los datos de configuracion de correo con simbolo unicode
-	var mailOptions = {
-		from: 'Domisil Team <elkin@oglit.com>',
-		to: req.body.email,
-		subject: 'Nuevo servicio',
-		text: 'Nuevo servicio',
-		html: "<h1 style='color: #c0392b;'>Nuevo servicio en Domisil.co</h1> <p style='color:#7f8c8d;'>Su servicio se ha enviado correctamente, pronto nos pondremos en contacto con usted. <br><br><br> Cordialmente, <br>Team Domisil <br> Bogotá - Colombia <br> <a href='http://www.domisil.co'>Domisil.co</a></p>"
-		// html: '<h1>Registro éxit Bogotá - Colombia <br>oso</h1> <p>Usted se registro en <a href="http://www.domisil.co" />Domisil.co</p>'
-	};
+	Usuario.findOne({_id: req.body.userId}, function(err, data){
+		if (err) res.send(err);
+		var usuario = data;
 
-	console.log(service);
+		// envio mail al usuario registrado
+		// los datos de configuracion de correo con simbolo unicode
+		var mailOptions = {
+			from: 'Domisil Team <elkin@oglit.com>',
+			to: usuario.email,
+			subject: 'Nuevo servicio',
+			text: 'Nuevo servicio',
+			html: "<h1 style='color: #c0392b;'>Nuevo servicio en Domisil.co</h1> <p style='color:#7f8c8d;'>Su servicio se ha enviado correctamente, pronto nos pondremos en contacto con usted. <br><br><br> Cordialmente, <br>Team Domisil <br> Bogotá - Colombia <br> <a href='http://www.domisil.co'>Domisil.co</a></p>"
+			// html: '<h1>Registro éxit Bogotá - Colombia <br>oso</h1> <p>Usted se registro en <a href="http://www.domisil.co" />Domisil.co</p>'
+		};
+	
 
-	service.save(function(err, data){
-		if(err) res.send(err);
-		res.json({message: 'Agregaste un Servicio', data: data });
+		console.log(service);
+
+		service.save(function(err, data){
+			if(err) res.send(err);
+			res.json({message: 'Agregaste un Servicio', data: data });
+
+			// Envio el mail con el transportador definido
+			transporter.sendMail(mailOptions, function(error, info){
+				if (error) {
+					return console.log(error);
+				}
+				console.log('Mensaje enviado: ' + info.response);
+			});
+
+		});
 	});
 }
 
