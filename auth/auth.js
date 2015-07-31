@@ -87,11 +87,9 @@ exports.faceLogin = function(req, res){
 					user.nombre = user.nombre || profile.name;
 					user.email = user.email || profile.email;
 
-					console.log('NOMBRE: '+user.nombre);
-					console.log('EMAIL: '+user.email);
+					console.log('USUARIO: '+profile.name);
 
 					user.save(function(){
-						// if (err) {return res.send({message: 'Error al almacenar los datos de facebook'}) }//Si hubo error
 						var token = service.createToken(user);
 						// devuelvo el token
 						res.send({userId: user._id, token: token});
@@ -107,16 +105,14 @@ exports.faceLogin = function(req, res){
 				}
 				var user = new User();
 				user.facebook = profile.id;
-				user.picture = user.picture || 'https://graph.facebook.com/'+ profile.id + '/picture?type=large';
-				user.usuario = user.usuario || profile.name;
-				user.nombre = user.nombre || profile.name;
-				user.email = user.email || profile.email;
+				user.picture = 'https://graph.facebook.com/'+ profile.id + '/picture?type=large';
+				user.usuario = profile.name;
+				user.nombre = profile.name;
+				user.email = profile.email;
+				console.log('USUARIO: '+profile.name);
 
-				console.log('NOMBRE: '+user.nombre);
-				console.log('EMAIL: '+user.email);
-
-				user.save(function(){
-					// if (err) {return res.send({message: 'Error al almacenar los datos de facebook'}) }//Si hubo error
+				user.save(function(err){
+					if (err) {return res.send({message: 'Error al almacenar los datos de facebook'}) }//Si hubo error
 					var token = service.createToken(user);
 					res.send({userId: user._id, token: token});
 				});
