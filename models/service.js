@@ -10,7 +10,9 @@ var ServiceSchema = new Schema ({
 	idEmpresa: {type: Schema.ObjectId, ref: 'EmpDomiciliarioModel'},
 	estadoService: String,
 	dirOrigen: String,
-	dirDestino: String
+	dirDestino: String,
+	tipoServio: String,
+	ciudad: String
 });
 
 module.exports = mongoose.model('Service', ServiceSchema);

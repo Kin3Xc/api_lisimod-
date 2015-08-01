@@ -67,7 +67,9 @@ exports.addOneService = function(req, res){
 		idEmpresa: req.body.idEmpresa,
 		estadoService: req.body.estadoService,
 		dirOrigen: req.body.dirOrigen,
-		dirDestino: req.body.dirDestino
+		dirDestino: req.body.dirDestino,
+		tipoServicio: req.body.tipoServicio,
+		ciudad: req.body.ciudad
 	});
 
 	Usuario.findOne({_id: req.body.userId}, function(err, data){
@@ -81,7 +83,7 @@ exports.addOneService = function(req, res){
 			to: usuario.email + ', danielr50@hotmail.com, kin3xc@hotmail.com', //FALTA DEFINIR
 			subject: 'Nuevo servicio',
 			text: 'Nuevo servicio',
-			html: "<h1 style='color: #c0392b;'>Nuevo servicio en Domisil.co</h1> <p style='color:#7f8c8d;'>Su servicio se ha enviado correctamente, pronto nos pondremos en contacto con usted. <br><br><br> Cordialmente, <br>Team Domisil <br> Bogotá - Colombia <br> <a href='http://www.domisil.co'>Domisil.co</a></p>"
+			html: "<h1 style='color: #c0392b;'>Nuevo servicio en Domisil.co</h1> <p style='color:#7f8c8d;'>Su servicio se ha enviado correctamente, pronto nos pondremos en contacto con usted. <br><br> <h2>Detalles del Servicio</h2> <br> <p>Tipo de Servicio: </p> "+ req.body.tipoServicio +" <br> <p>Origen: </p> "+req.body.dirOrigen+" <br> <p>Destino: </p> "+req.body.dirDestino+" <br> <p>Ciudad: </p> "+req.body.ciudad+" <br> <p>Estado: </p> "+req.body.estadoService+" <br> <p>Valor: </p> "+req.body.valorPedido+" <br><br><br> Cordialmente, <br>Equípo Domisil <br> Bogotá - Colombia <br> <a href='http://www.domisil.co'>Domisil.co</a></p>"
 			// html: '<h1>Registro éxit Bogotá - Colombia <br>oso</h1> <p>Usted se registro en <a href="http://www.domisil.co" />Domisil.co</p>'
 		};
 	
