@@ -85,7 +85,7 @@ exports.addOneService = function(req, res){
 			text: 'Nuevo servicio',
 			html: "<h1 style='color: #c0392b;'>Nuevo servicio en Domisil.co</h1> <p style='color:#7f8c8d;'>Su servicio se ha enviado correctamente, pronto nos pondremos en contacto con usted. <br><br> <h2>Detalles del Servicio</h2><p>Tipo de Servicio: "+ req.body.tipoServicio +" </p> <p>Origen: "+req.body.dirOrigen+" </p> <p>Destino: "+req.body.dirDestino+" </p> <p>Ciudad: "+req.body.ciudad+" </p> <p>Estado: "+req.body.estadoService+" </p> <p>Valor: "+req.body.valorPedido+"</p> <br><br><br> Cordialmente, <br>Equípo Domisil <br> Bogotá - Colombia <br> <a href='http://www.domisil.co'>Domisil.co</a></p>"
 			// html: '<h1>Registro éxit Bogotá - Colombia <br>oso</h1> <p>Usted se registro en <a href="http://www.domisil.co" />Domisil.co</p>'
-		};<br><br
+		};
 	
 
 		console.log(service);
