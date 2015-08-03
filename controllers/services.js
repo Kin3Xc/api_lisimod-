@@ -69,7 +69,7 @@ exports.addOneService = function(req, res){
 		dirOrigen: req.body.dirOrigen,
 		dirDestino: req.body.dirDestino,
 		tipoServicio: req.body.tipoServicio,
-		// ciudad: req.body.ciudad
+		comentario: req.body.comentario
 	});
 
 	Usuario.findOne({_id: req.body.userId}, function(err, data){

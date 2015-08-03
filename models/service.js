@@ -12,7 +12,7 @@ var ServiceSchema = new Schema ({
 	dirOrigen: String,
 	dirDestino: String,
 	tipoServio: String,
-	ciudad: String
+	comentario: String
 });
 
 module.exports = mongoose.model('Service', ServiceSchema);
