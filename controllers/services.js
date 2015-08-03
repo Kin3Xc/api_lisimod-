@@ -72,6 +72,8 @@ exports.addOneService = function(req, res){
 		comentario: req.body.comentario
 	});
 
+	console.log(req.body.comentario);
+
 	Usuario.findOne({_id: req.body.userId}, function(err, data){
 		if (err) res.send(err);
 		var usuario = data;
