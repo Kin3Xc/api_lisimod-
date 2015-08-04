@@ -72,6 +72,10 @@ exports.addOneService = function(req, res){
 		comentario: req.body.comentario
 	});
 
+	if (req.body.comentario == "") {
+		req.body.comentario = "Ninguno";
+	}
+
 	console.log(req.body.comentario);
 
 	Usuario.findOne({_id: req.body.userId}, function(err, data){
