@@ -26,6 +26,23 @@ exports.findOneUser = function(req, res){
 	});
 };
 
+
+// actualizar email
+exports.updateEmail = function(req, res){
+	// console.log('Aqui voy');
+	User.findOne({ _id: req.params.id }, function(err, user){
+		if (err) res.send({message: 'Error'})
+		user.email = req.body.email;
+
+		console.log(req.body.email);
+
+		user.save(function(err, data){
+			if (err) res.send({message: 'Error al actualizar el correo electronico'});
+			res.json({message:"se Actualizo el email", data: data});
+		});
+	});
+};
+
 exports.updateUser = function(req, res){
 	User.findOne({ _id: req.params.id }, function(err, user){
 		if (err) next(err);

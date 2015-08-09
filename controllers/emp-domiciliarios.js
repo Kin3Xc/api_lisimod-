@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 // para populate
 var path = require('path');
+var service = require('../service/token');
 
 var nodemailer = require('nodemailer');
 
@@ -72,9 +73,12 @@ exports.addEmpDomiciliario = function(req, res){
 
 	// guardar datos en la db
 	emp.save(function(err, data){
-		if (err) {return res.send({message: 'Error al almacenar los datos'})}
+		if (err) {return res.send({message: 'Error al almacenar los datos de l empresa'}) }//Si hubo error
 
-		res.json({message:"Se agrego correctamente", data: data});
+		// res.json({message:"Se agrego correctamente", data: data});
+		return res // si todo esta bien
+				.status(200)
+				.send({emp: emp, token: service.createToken(emp)});
 
 		// Envio el mail con el transportador definido
 		transporter.sendMail(mailOptions, function(error, info){
@@ -133,11 +137,6 @@ exports.deleteEmpDomiciliario = function(req, res){
 		if(err) res.send(err);
 		res.send(log);
 	});
-}
-
-// encuentra por tarifa 
-exports.findByTarif = function(req, res){
-
 }
 
 

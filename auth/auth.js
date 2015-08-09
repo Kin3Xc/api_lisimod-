@@ -2,6 +2,8 @@
 var mongoose = require('mongoose');
 // probar con mongoose.model('User'); CASA ADOLFO	
 var User = require('../models/user');
+// var Empresa = require('../models/emp-domiciliario');
+var Empresa = mongoose.model('EmpDomiciliarioModel');
 //para crear el token uso este service
 var service = require('../service/token');
 var bcrypt = require('bcrypt');
@@ -145,6 +147,44 @@ exports.unlinkProvider = function(req, res){
 
 // function para registro de usuario crea el token
 exports.emailSignup = function(req, res){
+
+	console.log('ROL: ' + req.body.roll);
+	// identifico el rol de la peticion
+	if (req.body.roll == 'Empresa') {
+		// if(req.files.foto){
+		// console.log('Cargando el archivo de la Imagen ...');
+		// var foto = req.files.foto.name;
+		// } else {
+		// 	// si no da foto poner foto default
+		// 	var foto = "noimage.png";
+		// }
+		var empresa = new Empresa({
+			usuario: req.body.usuario,
+			password: req.body.password,
+			nombreEmpresa: req.body.nombreEmpresa,
+			tarifaKm: req.body.tarifaKm,
+			email: req.body.email,
+			telefono: req.body.telefono,
+			nitEmpresa:req.body.nitEmpresa,
+			logoEmpresa: req.body.logoEmpresa
+		});
+
+		// domi.save(function(err, data){
+		// 	if (err) res.send(err);
+		// 	res.json({message:"se agrego el domiciliario", data: data});
+		// });
+		
+		empresa.save(function(err){
+			if (err) {return res.send({message: 'Error al almacenar los datos de l empresa'}) }//Si hubo error
+
+			return res // si todo esta bien
+				.status(200)
+				.send({empresa: empresa, token: service.createToken(empresa)});
+		});
+	}else{
+
+	// fin validacion de rol
+
 	var user = new User({
 		nombre: req.body.nombre,
 		email:req.body.email,
@@ -183,6 +223,7 @@ exports.emailSignup = function(req, res){
 			});
 		});
 	// });
+}
 };
 
 
@@ -193,7 +234,24 @@ exports.emailSignup = function(req, res){
 
 // function para ingresar usuario al sistema
 exports.emailLogin = function(req, res){
+	// empresa
+	if (req.body.roll == "Empresa") {
+		Empresa.findOne({usuario: req.body.usuario}, function(err, empresa){
+		if (err) next(err);
+		if(!empresa) {return res.status(401).send({message: 'No existe ese usuario'})}	
+		empresa.comparePassword(req.body.password, function(err, entra){
+			if (err) throw err;
+			if(!entra){return res.status(401).send({message: "Contraseña incorrecta", result:entra, pwd:empresa.password, llega:req.body.password})}
+			console.log(req.body.password, 'Estado: ' + entra);
+			return res
+				.status(200)
+				.send({ empresa: empresa, token: service.createToken(empresa) });
+		});
+
+		});
+	}else{
 	
+	// user
 	User.findOne({ usuario: req.body.usuario }, function(err, user){
 		if (err) next(err);
 		if(!user) {return res.status(401).send({message: 'No existe ese usuario'})}
@@ -211,7 +269,7 @@ exports.emailLogin = function(req, res){
 				.send({ userId: user._id, token: service.createToken(user) });
 		});
 	});
-
+	}
 	// User.findOne({ usuario: req.body.usuario }, function(err, user){
 	// 	if (err) next(err);
 	// 	if(!user) res.status(401).send({message: 'No existe ese usuario'});

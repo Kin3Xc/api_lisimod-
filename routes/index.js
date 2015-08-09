@@ -32,8 +32,6 @@ router.delete('/api/emp-domiciliarios/:id', domiciliarios.deleteEmpDomiciliario)
 
 // POR REVISAR
 // lógica de negocio
-router.get('/api/tarifas', domiciliarios.findByTarif);
-
 
 // DOMICILIARIOS
 router.get('/api/domiciliarios', domiciliarios.findAllDomiciliarios);
@@ -41,8 +39,6 @@ router.post('/api/domiciliarios', domiciliarios.addDomiciliario);
 router.get('/api/domiciliarios/:id', domiciliarios.findOneDomiciliario);
 router.delete('/api/domiciliarios/:id', domiciliarios.deleteDomiciliario);
 router.put('/api/domiciliarios/:id', domiciliarios.updateDomiciliario);
-
-
 
 // Rutas auth y login
 // Rutas de autenticación y login
@@ -54,13 +50,13 @@ router.get('/auth/facebook', auth.faceAdentro);
 
 router.get('/auth/unlink/:provider', middleware.ensureAuthenticated, auth.unlinkProvider);
 
-	
 
 // EN DESARROLLO	
 // Ruta solo accesible si estás autenticado
 router.get('/api/users', users.findAllUsers);
 router.get('/api/users/:id', users.findOneUser);
 router.put('/api/users/:id', users.updateUser);
+router.put('/api/useremail/:id', users.updateEmail);
 router.delete('/api/users/:id', users.deleteUser);
 router.post('/api/users',users.AddUser);
 
@@ -68,7 +64,6 @@ router.post('/api/users',users.AddUser);
 router.get('/private', middleware.ensureAuthenticated, function(req, res) {
   res.json({message: "Esto es super secreto y solo lo dejo ver si lograron implementar el token"});
 });
-
 
 // rutas  /api/service   service es el controller
 router.get('/api/services', services.findAllServices);
