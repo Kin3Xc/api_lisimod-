@@ -14,7 +14,7 @@ var services = require('../controllers/services');
 
 // ruta home
 router.get('/', function(req, res){
-	res.send('hola bienvenido a la api de DOMISIL');
+	res.send('Hola bienvenido a la api de DOMISIL');
 });
 
 // EMP DOMICILIARIOS
@@ -35,6 +35,7 @@ router.delete('/api/emp-domiciliarios/:id', domiciliarios.deleteEmpDomiciliario)
 
 // DOMICILIARIOS
 router.get('/api/domiciliarios', domiciliarios.findAllDomiciliarios);
+router.get('/api/domiciliariosEmpresa/:id', domiciliarios.findDomiciliariosEmpresa);
 router.post('/api/domiciliarios', domiciliarios.addDomiciliario);
 router.get('/api/domiciliarios/:id', domiciliarios.findOneDomiciliario);
 router.delete('/api/domiciliarios/:id', domiciliarios.deleteDomiciliario);
@@ -67,6 +68,7 @@ router.get('/private', middleware.ensureAuthenticated, function(req, res) {
 
 // rutas  /api/service   service es el controller
 router.get('/api/services', services.findAllServices);
+router.get('/api/servicesAsignar/:id', services.findServicesAsiganar);
 router.get('/api/service/:id', services.findOneService);
 router.get('/api/user_service/:id', services.findUserService); //para retornar los servicios de un usuario
 router.post('/api/service', services.addOneService);

@@ -44,6 +44,34 @@ exports.findOneService = function(req, res){
  });
 }
 
+// retorna los servicios que estan por asiganar
+exports.findServicesAsiganar = function(req, res){
+	// Service.findOne({_id: req.params.id}, function(err, data){
+	// 	Service.count({	estadoService: 'Esperando confirmacion'}, function(err, count){
+	// 		console.log("NUMERO: "+ count);
+	// 	});
+	// });
+	
+	Service.findOne({idEmpresa:  req.params.id, estadoService: 'Esperando confirmacion'}).count(function(err,pendientes){
+		// console.log('Pendientes: '+pendientes);
+			
+		Service.findOne({idEmpresa:  req.params.id, estadoService: 'Asignado'}).count(function(err,asignados){
+		// console.log('Asignados: '+asignados);
+
+			Service.find({idEmpresa: req.params.id, estadoService: 'Esperando confirmacion'}, function(err, data){
+				EmpDomiciliario.populate(data, {path: 'idEmpresa'}, function(err, data){
+					if (err) next(err);
+					User.populate(data, { path: 'userId'}, function(err, data){
+						if (err) next(err);
+						// res.json(data);
+						return res.send({data: data, pendientes:pendientes, asignados:asignados});
+					});
+				});
+			});
+		});
+	})
+};
+
 // retorna todos los servicios asociados a un usuario especifico
 exports.findUserService = function(req, res){
 	Service.find({ userId: req.params.id}, function(err, data){

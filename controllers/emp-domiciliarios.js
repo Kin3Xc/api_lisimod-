@@ -140,17 +140,20 @@ exports.deleteEmpDomiciliario = function(req, res){
 }
 
 
+
+
+
 // ---- DOMICILIARIOS
 
 // agrega domiciliario
 exports.addDomiciliario = function(req, res){
-	if(req.files.foto){
-		console.log('Cargando el archivo de la Imagen ...');
-		var foto = req.files.foto.name;
-	} else {
-		// si no da foto poner foto default
-		var foto = "noimage.png";
-	}
+	// if(req.files.foto){
+	// 	console.log('Cargando el archivo de la Imagen ...');
+	// 	var foto = req.files.foto.name;
+	// } else {
+	// 	// si no da foto poner foto default
+	// 	var foto = "noimage.png";
+	// }
 
 	var domi = new Domiciliario({
 		nombre: req.body.nombre,
@@ -158,7 +161,8 @@ exports.addDomiciliario = function(req, res){
 		telefono: req.body.telefono,
 		numCedula: req.body.numCedula,
 		idEmpresa: req.body.idEmpresa,
-		foto: foto
+		estado: 'Disponible',
+		foto: req.body.foto
 	});
 
 	domi.save(function(err, data){
@@ -179,6 +183,18 @@ exports.findOneDomiciliario = function(req, res){
 	});	
 }
 
+// retorna todos los domiciliarios de una empresa
+exports.findDomiciliariosEmpresa = function(req, res){
+	Domiciliario.find({idEmpresa:  req.params.id}).count(function(err,domisiliarios){
+		console.log('domisiliarios: '+domisiliarios);
+
+		Domiciliario.find({idEmpresa: req.params.id}, function(err, data){
+			if(err) res.send(err);
+			// res.json(data);
+			return res.send({data: data, domisiliarios:domisiliarios});
+		});
+	});
+};
 
 // encuentra todos los domiciliarios
 exports.findAllDomiciliarios = function(req, res){
