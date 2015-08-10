@@ -196,6 +196,15 @@ exports.findDomiciliariosEmpresa = function(req, res){
 	});
 };
 
+
+// retorna todos los domisiliarios en estado disponible
+exports.domiDisponibles = function(req, res){
+	Domiciliario.find({idEmpresa: req.params.id, estado:'Disponible'}, function(err, data){
+		if(err) res.send(err);	
+		return res.send({data: data});
+	});
+};
+
 // encuentra todos los domiciliarios
 exports.findAllDomiciliarios = function(req, res){
 	Domiciliario.find(function(err, domiciliario){

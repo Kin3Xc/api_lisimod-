@@ -36,6 +36,7 @@ router.delete('/api/emp-domiciliarios/:id', domiciliarios.deleteEmpDomiciliario)
 // DOMICILIARIOS
 router.get('/api/domiciliarios', domiciliarios.findAllDomiciliarios);
 router.get('/api/domiciliariosEmpresa/:id', domiciliarios.findDomiciliariosEmpresa);
+router.get('/api/domiEstado/:id', domiciliarios.domiDisponibles);
 router.post('/api/domiciliarios', domiciliarios.addDomiciliario);
 router.get('/api/domiciliarios/:id', domiciliarios.findOneDomiciliario);
 router.delete('/api/domiciliarios/:id', domiciliarios.deleteDomiciliario);
