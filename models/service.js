@@ -12,7 +12,7 @@ var ServiceSchema = new Schema ({
 	estadoService: String,
 	dirOrigen: String,
 	dirDestino: String,
-	tipoServio: String,
+	tipoServicio: String,
 	comentario: String
 });
 

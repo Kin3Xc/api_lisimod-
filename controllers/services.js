@@ -53,7 +53,7 @@ exports.findServicesAsiganar = function(req, res){
 	// });
 	
 	Service.findOne({idEmpresa:  req.params.id, estadoService: 'Esperando confirmacion'}).count(function(err,pendientes){
-		// console.log('Pendientes: '+pendientes);
+		// console.log('Pendientes: '+ pendientes);
 			
 		Service.findOne({idEmpresa:  req.params.id, estadoService: 'Asignado'}).count(function(err,asignados){
 		// console.log('Asignados: '+asignados);
