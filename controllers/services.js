@@ -58,13 +58,17 @@ exports.findServicesAsiganar = function(req, res){
 		Service.findOne({idEmpresa:  req.params.id, estadoService: 'Asignado'}).count(function(err,asignados){
 		// console.log('Asignados: '+asignados);
 
-			Service.find({idEmpresa: req.params.id, estadoService: 'Esperando confirmacion'}, function(err, data){
-				EmpDomiciliario.populate(data, {path: 'idEmpresa'}, function(err, data){
-					if (err) next(err);
-					User.populate(data, { path: 'userId'}, function(err, data){
+			Service.find({idEmpresa:req.params.id, estadoService: 'Asignado'}, function(err, dataAsignados){
+				if (err) next(err);
+
+				Service.find({idEmpresa: req.params.id, estadoService: 'Esperando confirmacion'}, function(err, data){
+					EmpDomiciliario.populate(data, {path: 'idEmpresa'}, function(err, data){
 						if (err) next(err);
-						// res.json(data);
-						return res.send({data: data, pendientes:pendientes, asignados:asignados});
+						User.populate(data, { path: 'userId'}, function(err, data){
+							if (err) next(err);
+							// res.json(data);
+							return res.send({data: data, pendientes:pendientes, asignados:asignados, dataAsignados: dataAsignados});
+						});
 					});
 				});
 			});
