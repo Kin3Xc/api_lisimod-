@@ -60,6 +60,7 @@ exports.findServicesAsiganar = function(req, res){
 
 			Service.find({idEmpresa:req.params.id, estadoService: 'Asignado'}, function(err, dataAsignados){
 				if (err) next(err);
+				console.log(dataAsignados);
 
 				Service.find({idEmpresa: req.params.id, estadoService: 'Esperando confirmacion'}, function(err, data){
 					EmpDomiciliario.populate(data, {path: 'idEmpresa'}, function(err, data){
