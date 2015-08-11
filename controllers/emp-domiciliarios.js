@@ -185,13 +185,13 @@ exports.findOneDomiciliario = function(req, res){
 
 // retorna todos los domiciliarios de una empresa
 exports.findDomiciliariosEmpresa = function(req, res){
-	Domiciliario.find({idEmpresa:  req.params.id}).count(function(err,domisiliarios){
-		console.log('domisiliarios: '+domisiliarios);
+	Domiciliario.find({idEmpresa:  req.params.id}).count(function(err,domi){
+		console.log('domisiliarios: '+domi);
 
 		Domiciliario.find({idEmpresa: req.params.id}, function(err, data){
 			if(err) res.send(err);
 			// res.json(data);
-			return res.send({data: data, domisiliarios:domisiliarios});
+			return res.send({data: data, domisiliarios:domi});
 		});
 	});
 };
