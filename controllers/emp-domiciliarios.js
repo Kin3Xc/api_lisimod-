@@ -185,7 +185,7 @@ exports.findOneDomiciliario = function(req, res){
 
 // retorna todos los domiciliarios de una empresa
 exports.findDomiciliariosEmpresa = function(req, res){
-	if (req.params.id != '') {return res.send({data: 'El id esta vacio'})};
+	// if (req.params.id != '') {return res.send({data: 'El id esta vacio'})};
 	
 	Domiciliario.find({idEmpresa:  req.params.id}).count(function(err,domi){
 		// console.log('domisiliarios: '+domi);
