@@ -148,6 +148,7 @@ exports.updateService = function(req, res){
 
  	//modificaciones
  	servicio.tipoDePago = req.body.tipoDePago;
+ 	servicio.idDomisiliario = req.body.idDomisiliario;
  	
  	servicio.save(function(err, data){
  		if (err) throw err;

@@ -8,6 +8,7 @@ var ServiceSchema = new Schema ({
 	tipoDePago: String,
 	valorPedido: Number,
 	idEmpresa: {type: Schema.ObjectId, ref: 'EmpDomiciliarioModel'},
+	idDomisiliario: {type: Schema.ObjectId, ref: 'DomiciliarioModel'},
 	estadoService: String,
 	dirOrigen: String,
 	dirDestino: String,
