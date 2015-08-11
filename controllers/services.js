@@ -147,7 +147,7 @@ exports.updateService = function(req, res){
  	var servicio = data;
 
  	//modificaciones
- 	servicio.tipoDePago = req.body.tipoDePago;
+ 	// servicio.tipoDePago = req.body.tipoDePago;
  	servicio.idDomisiliario = req.body.idDomisiliario;
  	
  	servicio.save(function(err, data){
